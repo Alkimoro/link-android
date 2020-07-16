@@ -1,0 +1,5 @@
+include ':commonlib'
+include ':mine'
+include ':home'
+include ':app'
+rootProject.name = "Link"
