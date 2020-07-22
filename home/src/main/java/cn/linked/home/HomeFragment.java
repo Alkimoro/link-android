@@ -1,6 +1,9 @@
 package cn.linked.home;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +20,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.home_fragment_layout,container);
+        View view=inflater.inflate(R.layout.home_fragment_layout,null,false);
         return view;
     }
 }
