@@ -30,7 +30,7 @@ android {
     sourceSets {
         main {
             if(independentModule.toBoolean()){
-                manifest.srcFile 'src/independent/AndroidManifest.xml'
+                manifest.srcFile 'src/main/AndroidManifest.xml'
             }
         }
     }

@@ -14,8 +14,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.android.internal.widget.RecyclerView;
-
 public class HomeActivity extends AppCompatActivity {
 
     @Override
