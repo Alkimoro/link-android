@@ -1,10 +1,16 @@
 package cn.linked.mine;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.IBinder;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ListView;
 
@@ -19,6 +25,8 @@ import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import cn.linked.commonlib.jni.diffpatch.bsdiffpatch.BSDiffPatch;
+
 public class MineActivity extends AppCompatActivity {
 
     @Override
@@ -31,6 +39,8 @@ public class MineActivity extends AppCompatActivity {
         if(savedInstanceState!=null){
             System.out.println(savedInstanceState.get("key"));
         }
+        System.out.println(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
+        System.out.println(getApplicationContext().getExternalFilesDir(null).getAbsolutePath());
         System.out.println("ViewModel: "+model);
         System.out.println("onCreate");
     }
