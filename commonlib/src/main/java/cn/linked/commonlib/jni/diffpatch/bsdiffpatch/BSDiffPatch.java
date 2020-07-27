@@ -1,9 +1,5 @@
 package cn.linked.commonlib.jni.diffpatch.bsdiffpatch;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
-
 import java.io.File;
 
 import cn.linked.commonlib.jni.diffpatch.IDiffPatch;

@@ -41,7 +41,10 @@ dependencies {
     // 在项目中的libs中的所有的.jar结尾的文件，都是依赖
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //把implementation 用api代替,它是对外部公开的, 所有其他的module就不需要添加该依赖
+    // 引入AndroidAutoSize
+    api 'me.jessyan:autosize:1.1.2'
+
+    // 把implementation 用api代替,它是对外部公开的, 所有其他的module就不需要添加该依赖
     api rootProject.ext.dependencies["appcompat"]
     api rootProject.ext.dependencies["constraintlayout"]
     api rootProject.ext.dependencies["junit"]

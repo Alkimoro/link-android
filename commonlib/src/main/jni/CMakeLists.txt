@@ -2,8 +2,8 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 # 添加子目录
-#add_subdirectory(bsdiffpatch)
-#add_subdirectory(bzip2)
+add_subdirectory(bsdiffpatch)
+add_subdirectory(bzip2)
 
 # 创建并命名一个库，将其设置为静态
 #  或者共享，并提供其源代码的相对路径。

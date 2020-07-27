@@ -11,6 +11,7 @@ public class MD5Validator {
 
     public static final String ERROR_MD5 = "";
 
+    // 构建md5，参数为null时或者出错时，返回ERROR_MD5字符串
     public static String md5(File file) {
         String result = ERROR_MD5;
         FileInputStream in = null;

@@ -1,31 +1,14 @@
 package cn.linked.mine;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavHost;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-
-import cn.linked.commonlib.jni.diffpatch.bsdiffpatch.BSDiffPatch;
 
 public class MineActivity extends AppCompatActivity {
 

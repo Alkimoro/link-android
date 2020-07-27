@@ -1,8 +1,4 @@
-if(!independentModule.toBoolean()) {
-    apply plugin: 'com.android.library'
-}else{
-    apply plugin: 'com.android.application'
-}
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.versions["compileSdkVersion"]
@@ -16,9 +12,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-        if(independentModule.toBoolean()){
-            applicationId "cn.linked.mine"
-        }
+
     }
 
     buildTypes {
@@ -27,22 +21,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main {
-            if(independentModule.toBoolean()){
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-            }
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    // 在项目中的libs中的所有的.jar结尾的文件，都是依赖
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':baselib')
+    api project(':commonlib')
 
 }
