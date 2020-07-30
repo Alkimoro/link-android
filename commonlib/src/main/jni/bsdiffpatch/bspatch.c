@@ -205,7 +205,7 @@ int applypatch(int argc,char * argv[])
 	return 0;
 }
 
-JNIEXPORT jint JNICALL Java_cn_linked_commonlib_jni_diffpatch_bsdiffpatch_BSDiffPatch_bspatch(JNIEnv *env, jobject thiz, jstring oldFilePath,
+JNIEXPORT jint JNICALL Java_cn_linked_commonlib_jni_diffpatch_BSDiffPatch_bspatch(JNIEnv *env, jobject thiz, jstring oldFilePath,
 							  jstring diffFilePath, jstring newFilePath){
 	int argc = 4;
 	char * argv[argc];

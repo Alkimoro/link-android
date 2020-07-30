@@ -1,4 +1,4 @@
-package cn.linked.commonlib.jni.diffpatch.bsdiffpatch;
+package cn.linked.commonlib.jni.diffpatch;
 
 import java.io.File;
 

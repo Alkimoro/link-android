@@ -1,19 +1,15 @@
-package cn.linked.commonlib.update.Incrementalupdate;
+package cn.linked.commonlib.util;
 
+import android.annotation.NonNull;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
-import android.os.Environment;
-
-import androidx.annotation.NonNull;
 
 import java.io.File;
-import java.util.UUID;
 
 import cn.linked.commonlib.jni.diffpatch.IDiffPatch;
-import cn.linked.commonlib.update.exception.UpdateInterruptException;
-import cn.linked.commonlib.update.util.MD5Validator;
+import cn.linked.commonlib.exception.UpdateInterruptException;
 
-public class DefaultIncrementUpdater implements IIncrementalUpdater {
+public class DefaultIncrementUpdater implements IIncrementUpdater {
 
     public final String TempDir;
 
@@ -25,8 +21,8 @@ public class DefaultIncrementUpdater implements IIncrementalUpdater {
     private String sourceMD5;
     private String curMD5;
 
-    public DefaultIncrementUpdater(@NonNull IDiffPatch diffPatch,@NonNull Application application,
-                                   @NonNull File diffAPK,@NonNull String sourceMD5){
+    public DefaultIncrementUpdater(@NonNull IDiffPatch diffPatch, @NonNull Application application,
+                                   @NonNull File diffAPK, @NonNull String sourceMD5){
         this.diffPatch=diffPatch;
         this.application=application;
         this.sourceMD5=sourceMD5;

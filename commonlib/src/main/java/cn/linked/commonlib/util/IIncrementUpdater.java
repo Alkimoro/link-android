@@ -1,10 +1,10 @@
-package cn.linked.commonlib.update.Incrementalupdate;
+package cn.linked.commonlib.util;
 
 import java.io.File;
 
 import cn.linked.commonlib.jni.diffpatch.IDiffPatch;
 
-public interface IIncrementalUpdater {
+public interface IIncrementUpdater {
 
     public IDiffPatch getDiffPatch();
 

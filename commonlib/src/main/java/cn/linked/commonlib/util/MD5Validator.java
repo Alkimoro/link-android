@@ -1,4 +1,4 @@
-package cn.linked.commonlib.update.util;
+package cn.linked.commonlib.util;
 
 import java.io.File;
 import java.io.FileInputStream;

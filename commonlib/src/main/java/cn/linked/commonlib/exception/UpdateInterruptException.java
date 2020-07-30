@@ -1,6 +1,4 @@
-package cn.linked.commonlib.update.exception;
-
-import cn.linked.commonlib.exception.ApplicationException;
+package cn.linked.commonlib.exception;
 
 public class UpdateInterruptException extends ApplicationException {
 
