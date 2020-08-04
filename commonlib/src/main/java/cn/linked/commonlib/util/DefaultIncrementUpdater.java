@@ -1,10 +1,12 @@
 package cn.linked.commonlib.util;
 
-import android.annotation.NonNull;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
+import java.util.UUID;
 
 import cn.linked.commonlib.jni.diffpatch.IDiffPatch;
 import cn.linked.commonlib.exception.UpdateInterruptException;
