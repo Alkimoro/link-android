@@ -36,31 +36,31 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text='@{"是否升级到"+viewModel.targetVersion+"版本？"}'
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text='{"是否升级到"+viewModel.targetVersion+"版本？"}'
+            android:textColor="#666"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/imageView1"
             app:layout_constraintTop_toBottomOf="@+id/imageView1" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text='@{"更新所需流量："+viewModel.apkSize}'
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text='{"更新所需流量："+viewModel.apkSize}'
             android:textColor="#666"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imageView1"
             app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
 
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="150dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintStart_toStartOf="@+id/view"
@@ -75,7 +75,8 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text='@{viewModel.updateDetail}'
+                    android:layout_marginStart="8dp"
+                    android:text='{viewModel.updateDetail}'
                     android:textColor="#666"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +103,9 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="0dp"
+            android:progress="20"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/button"
             app:layout_constraintEnd_toEndOf="@+id/button"
@@ -136,7 +138,6 @@
             android:background="#d8d8d8"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button" />
 

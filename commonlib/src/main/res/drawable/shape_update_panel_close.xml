@@ -8,12 +8,12 @@
         android:name="square"
         android:strokeColor="#d8d8d8"
         android:strokeWidth="30"
-        android:pathData="M100,100 L400,400 z"/>
+        android:pathData="M150,150 L350,350 z"/>
     <path
         android:name="square"
         android:strokeColor="#d8d8d8"
         android:strokeWidth="30"
-        android:pathData="M400,100 L100,400 z"/>
+        android:pathData="M350,150 L150,350 z"/>
     <path
         android:name="square"
         android:strokeColor="#d8d8d8"
