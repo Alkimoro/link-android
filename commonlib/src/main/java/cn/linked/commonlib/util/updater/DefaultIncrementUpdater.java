@@ -1,4 +1,4 @@
-package cn.linked.commonlib.util;
+package cn.linked.commonlib.util.updater;
 
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import cn.linked.commonlib.jni.diffpatch.IDiffPatch;
 import cn.linked.commonlib.exception.UpdateInterruptException;
+import cn.linked.commonlib.util.MD5Validator;
 
 public class DefaultIncrementUpdater implements IIncrementUpdater {
 

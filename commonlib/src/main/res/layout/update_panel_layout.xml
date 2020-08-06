@@ -37,10 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text='{"是否升级到"+viewModel.targetVersion+"版本？"}'
             android:textColor="#666"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/imageView1"
             app:layout_constraintTop_toBottomOf="@+id/imageView1" />
 
@@ -49,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text='{"更新所需流量："+viewModel.apkSize}'
             android:textColor="#666"
             android:textSize="14sp"
@@ -76,6 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text='{viewModel.updateDetail}'
                     android:textColor="#666"
                     android:textSize="14sp"

@@ -2,4 +2,4 @@
 # 并将名称保存到 DIR_LIB_SRCS 变量
 aux_source_directory(. DIR_LIB_SRCS)
 # 生成链接库
-add_library(bsdiffpatch SHARED ${DIR_LIB_SRCS})
+add_library(bsdiffpatch STATIC ${DIR_LIB_SRCS})

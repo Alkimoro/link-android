@@ -1,4 +1,4 @@
-package cn.linked.commonlib.util;
+package cn.linked.commonlib.util.updater;
 
 import java.io.File;
 
