@@ -1,4 +1,4 @@
-package cn.linked.commonlib;
+package cn.linked.link;
 
 public class ProjectInfo {
     /**

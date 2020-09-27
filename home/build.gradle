@@ -21,6 +21,11 @@ android {
         }
     }
 
+    // 启用数据绑定
+    buildFeatures {
+        dataBinding = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false

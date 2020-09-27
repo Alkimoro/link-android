@@ -2,7 +2,7 @@ package cn.linked.commonlib;
 
 import org.junit.Test;
 
-import cn.linked.commonlib.jni.diffpatch.bsdiffpatch.BSDiffPatch;
+import cn.linked.commonlib.jni.diffpatch.BSDiffPatch;
 
 import static org.junit.Assert.*;
 

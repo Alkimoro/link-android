@@ -20,8 +20,9 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
+    // 启用数据绑定
+    buildFeatures {
+        dataBinding = true
     }
 
     buildTypes {
@@ -60,6 +61,6 @@ dependencies {
     // Dynamic Feature Module Support
     api "androidx.navigation:navigation-dynamic-features-fragment:${rootProject.ext.versions['navgation_version']}"
     // Testing Navigation
-    testApi "androidx.navigation:navigation-testing:${rootProject.ext.versions['navgation_version']}"
+    testImplementation "androidx.navigation:navigation-testing:${rootProject.ext.versions['navgation_version']}"
 
 }

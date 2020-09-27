@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 
+import cn.linked.commonlib.util.DensityUtil;
+
 public class LinkApplication extends Application {
 
     @Override
@@ -12,6 +14,8 @@ public class LinkApplication extends Application {
         System.out.println("link application : init");
         // 初始化ARouter
         ARouterInit();
+        //初始化DensityUtil
+        DensityUtil.init(this.getResources().getDisplayMetrics());
     }
     private void ARouterInit(){
         if (BuildConfig.DEBUG) { //如果在debug模式下
