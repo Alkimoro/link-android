@@ -1,11 +1,8 @@
 package cn.linked.mine;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.view.PixelCopy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +14,6 @@ public class MineActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         TestViewModel model =new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(TestViewModel.class);
         System.out.println(model.test);

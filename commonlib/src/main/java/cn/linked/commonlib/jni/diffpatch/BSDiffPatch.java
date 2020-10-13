@@ -1,14 +1,14 @@
 package cn.linked.commonlib.jni.diffpatch;
 
-import java.io.File;
+import android.util.Log;
 
-import cn.linked.commonlib.jni.diffpatch.IDiffPatch;
+import java.io.File;
 
 public class BSDiffPatch implements IDiffPatch {
 
     static{
         System.loadLibrary("native-lib");
-        System.out.println("jni library : native-lib load success");
+        Log.i("BSDiffPatch","jni library : native-lib load success");
     }
 
     public native int bsdiff(String oldFilePath, String newFilePath, String diffFilePath);

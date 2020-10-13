@@ -12,6 +12,13 @@ android {
         versionName rootProject.ext.versions["versionName"]
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [MODULE_INDEX: "0"]
+            }
+        }
+
     }
 
     // 启用数据绑定
@@ -35,5 +42,14 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation project(':baselib')
+
+    //如果壳工程(APP) 单独调试 则不引入其他模块
+    if(!independentModule.toBoolean()){
+        implementation project(':home')
+        implementation project(':mine')
+    }
+
+    // 引入Router注解处理器
+    annotationProcessor 'cn.linked.router:apt:1.0.0-SNAPSHOT'
 
 }

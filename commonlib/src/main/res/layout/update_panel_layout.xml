@@ -6,8 +6,12 @@
     </data>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#56FF0000">
+        android:layout_height="match_parent">
+        <cn.linked.commonlib.view.BlurView
+            android:id="@+id/blurView"
+            app:overlayColor="#4D1B2B3E"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/detailPanel"
@@ -67,7 +71,6 @@
                 app:layout_constraintStart_toStartOf="@+id/imageView1"
                 app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
-
             <ScrollView
                 android:id="@+id/scrollView2"
                 android:layout_width="0dp"
@@ -96,12 +99,25 @@
                 </LinearLayout>
             </ScrollView>
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.updateProcess+"%"}'
+                android:textColor="#39aae9"
+                app:layout_constraintBottom_toTopOf="@+id/progressBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:progressTint="#39aae9"
+                android:progressBackgroundTint="#00A194"
+                android:secondaryProgressTint="@android:color/transparent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:progress="20"
+                android:progress='@{viewModel.updateProcess}'
                 app:layout_constraintBottom_toBottomOf="@+id/button"
                 app:layout_constraintEnd_toEndOf="@+id/button"
                 app:layout_constraintStart_toStartOf="@+id/button" />
@@ -114,26 +130,16 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 style="@style/Widget.AppCompat.Button.Borderless"
+                android:stateListAnimator="@{null}"
                 android:background="@drawable/ripple_update_panel_button"
                 android:gravity="center"
                 android:text="升级"
                 android:textColor="@android:color/white"
                 android:textFontWeight="700"
                 android:textSize="15sp"
-                android:stateListAnimator="@{null}"
                 app:layout_constraintEnd_toEndOf="@+id/imageView1"
                 app:layout_constraintStart_toStartOf="@+id/imageView1"
                 app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text='@{viewModel.updateProcess+"%"}'
-                android:textColor="#E94339"
-                app:layout_constraintBottom_toTopOf="@+id/progressBar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline1"

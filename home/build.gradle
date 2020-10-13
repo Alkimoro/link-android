@@ -19,6 +19,12 @@ android {
         if(independentModule.toBoolean()){
             applicationId "cn.linked.home"
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [MODULE_INDEX: "1"]
+            }
+        }
     }
 
     // 启用数据绑定
@@ -49,5 +55,8 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation project(':baselib')
+
+    // 引入Router注解处理器
+    annotationProcessor 'cn.linked.router:apt:1.0.0-SNAPSHOT'
 
 }
