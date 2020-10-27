@@ -10,6 +10,9 @@
     <LinearLayout
         android:layout_width="108dp"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_navigation_item"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
@@ -28,6 +31,9 @@
     <LinearLayout
         android:layout_width="108dp"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_navigation_item"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
@@ -46,6 +52,9 @@
     <LinearLayout
         android:layout_width="108dp"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_navigation_item"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
@@ -64,6 +73,9 @@
     <LinearLayout
         android:layout_width="108dp"
         android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_navigation_item"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
