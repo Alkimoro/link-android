@@ -32,7 +32,8 @@ public class BaseActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
             View decorView=getWindow().getDecorView();
             int systemUiVisibility=decorView.getSystemUiVisibility();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|systemUiVisibility);
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR|
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE|systemUiVisibility);
         }
     }
 

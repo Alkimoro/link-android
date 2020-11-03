@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <Button
-        android:id="@+id/button"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:text="按钮"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="50dp"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import alias="Unit" type="cn.linked.commonlib.util.UnitUtil"/>
+        <variable name="m" type="android.util.DisplayMetrics" />
+    </data>
+    <FrameLayout
+        android:transitionName="mainMineFragmentTransition"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/panel"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:layout_marginEnd="40dp"
+            android:layout_width="340dp"
+            android:paddingTop="@{Unit.getStatusBarHeight()}"
+            android:layout_height="match_parent"
+            android:focusable="true">
+            <Button
+                android:id="@+id/button"
+                android:layout_width="220dp"
+                android:layout_height="60dp"
+                android:text="按钮"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"/>
 
-</LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</layout>

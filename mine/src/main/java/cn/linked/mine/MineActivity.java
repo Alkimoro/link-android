@@ -7,6 +7,7 @@ import android.view.PixelCopy;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 public class MineActivity extends AppCompatActivity {
@@ -15,22 +16,16 @@ public class MineActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TestViewModel model =new ViewModelProvider(this,new ViewModelProvider.NewInstanceFactory()).get(TestViewModel.class);
-        System.out.println(model.test);
-        model.test="sdhsjfjsdfhkdgtgrt";
-        if(savedInstanceState!=null){
-            System.out.println(savedInstanceState.get("key"));
-        }
+        Fragment fragment=new MineFragment();
+        MineFragmentViewModel viewModel=new MineFragmentViewModel(fragment);
+
         System.out.println(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
         System.out.println(getApplicationContext().getExternalFilesDir(null).getAbsolutePath());
-        System.out.println("ViewModel: "+model);
-        System.out.println("onCreate");
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("key","ssdassdsdd");
         System.out.println("onSave");
     }
 

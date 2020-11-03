@@ -8,6 +8,7 @@
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
+        android:id="@+id/navigation_item_0"
         android:layout_width="108dp"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -29,6 +30,7 @@
             android:text="消息"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/navigation_item_1"
         android:layout_width="108dp"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -50,6 +52,7 @@
             android:text="联系人"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/navigation_item_2"
         android:layout_width="108dp"
         android:layout_height="match_parent"
         android:clickable="true"
@@ -71,6 +74,7 @@
             android:text="社区"/>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/navigation_item_3"
         android:layout_width="108dp"
         android:layout_height="match_parent"
         android:clickable="true"

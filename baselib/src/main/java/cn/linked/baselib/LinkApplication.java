@@ -3,7 +3,6 @@ package cn.linked.baselib;
 import android.app.Application;
 import android.util.Log;
 
-import cn.linked.commonlib.util.DensityUtil;
 import cn.linked.router.api.Router;
 
 public class LinkApplication extends Application {
@@ -16,8 +15,6 @@ public class LinkApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i("LinkApplication","Application on create!");
-        // 初始化DensityUtil
-        DensityUtil.init(this.getResources().getDisplayMetrics());
         // 初始化Router
         Router.init(this);
     }

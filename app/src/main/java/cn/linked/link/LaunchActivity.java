@@ -1,8 +1,8 @@
 package cn.linked.link;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import cn.linked.baselib.BaseActivity;
 import cn.linked.baselib.LinkApplication;
 import cn.linked.commonlib.util.common.LoopHandler;
+import cn.linked.link.databinding.LaunchBinding;
 import cn.linked.router.common.Route;
 
 @Route(path = "app/launchActivity")
@@ -21,7 +22,9 @@ public class LaunchActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.launch);
+        LaunchBinding launchBinding=LaunchBinding.inflate(getLayoutInflater(),null,false);
+        launchBinding.setM(getResources().getDisplayMetrics());
+        setContentView(launchBinding.getRoot());
         timerHandler=new LoopHandler((int)totalShowTime,1000,0);
         timerHandler.postDelayed(timerMsg,totalShowTime*1000);
         TextView skipButton=findViewById(R.id.skipButton);
@@ -33,14 +36,17 @@ public class LaunchActivity extends BaseActivity {
     }
 
     @Override
-    protected void setStatusBarAppearance() {
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
         initData();
+    }
+
+    @Override
+    protected void setStatusBarAppearance() {
+        super.setStatusBarAppearance();
+        View decorView=getWindow().getDecorView();
+        int systemUiVisibility=decorView.getSystemUiVisibility();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|systemUiVisibility);
     }
 
     private void redirect(){

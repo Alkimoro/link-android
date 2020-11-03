@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="#fff"/>
+        </shape>
+    </item>
     <item android:bottom="-2dp" android:left="-2dp" android:right="-2dp">
         <shape >
             <!-- view背景色 -->
             <solid android:color="@android:color/transparent" />
             <!-- 边框颜色 宽度 -->
             <stroke
-                android:width="0.1dp"
-                android:color="#CEDCE4" />
-
+                android:width="1px"
+                android:color="#ff00ddff" />
         </shape >
     </item>
 </layer-list>
