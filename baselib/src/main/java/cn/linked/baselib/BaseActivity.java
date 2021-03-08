@@ -10,6 +10,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import cn.linked.router.api.Router;
+
 public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +54,17 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent=getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
         startActivity(intent);
         finish();
+    }
+
+    protected void goLoginActivity() {
+        Intent intent=new Intent(getApplication(), Router.route("app/loginActivity"));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    public LinkApplication getLinkApplication() {
+        return (LinkApplication) getApplication();
     }
  
     @Override

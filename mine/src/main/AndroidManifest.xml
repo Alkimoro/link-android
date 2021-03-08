@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.linked.mine">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:name="cn.linked.baselib.LinkApplication"
         android:allowBackup="true"
@@ -17,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name="cn.linked.baselib.socket.ChatService"
+            android:exported="false"
+            android:process=":chatProcess"/>
         <!-- 对标1080*1920 400dpi -->
         <meta-data
             android:name="design_width_in_dp"

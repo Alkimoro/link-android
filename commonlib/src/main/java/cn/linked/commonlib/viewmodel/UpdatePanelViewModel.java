@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -20,9 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.ObservableByte;
 import androidx.databinding.ObservableField;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import cn.linked.commonlib.databinding.UpdatePanelLayoutBinding;
 

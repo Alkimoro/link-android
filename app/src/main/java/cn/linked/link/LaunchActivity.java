@@ -18,13 +18,14 @@ public class LaunchActivity extends BaseActivity {
     // 最长展示的时间 以秒为单位
     private long totalShowTime=3;
     private LoopHandler timerHandler;
-    private Runnable timerMsg= this::redirect;
+    private Runnable timerMsg= this::skip;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LaunchBinding launchBinding=LaunchBinding.inflate(getLayoutInflater(),null,false);
         launchBinding.setM(getResources().getDisplayMetrics());
         setContentView(launchBinding.getRoot());
+
         timerHandler=new LoopHandler((int)totalShowTime,1000,0);
         timerHandler.postDelayed(timerMsg,totalShowTime*1000);
         TextView skipButton=findViewById(R.id.skipButton);
@@ -50,7 +51,11 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void redirect(){
-        Intent intent=new Intent(getApplication(),HomeActivity.class);
+        Class<?> target=HomeActivity.class;
+        if(getLinkApplication().getSessionId()==null) {
+            target=LoginActivity.class;
+        }
+        Intent intent=new Intent(getApplication(),target);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
@@ -58,7 +63,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void skip(){
         timerHandler.removeCallbacks(timerMsg);
-        redirect();
+        getLinkApplication().setInitListener((success -> {if(success){redirect();}}));
     }
 
     private void initData(){

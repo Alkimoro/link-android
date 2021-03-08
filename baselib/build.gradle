@@ -13,6 +13,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [MODULE_INDEX: "3"]
+            }
+        }
+
     }
 
     buildTypes {
@@ -32,12 +38,30 @@ dependencies {
     // 在项目中的libs中的所有的.jar结尾的文件，都是依赖
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // 集成hippy
+    api 'com.tencent.hippy:hippy-release:2.1.0'
+    // glide 一个拉图库
+    api 'com.github.bumptech.glide:glide:4.11.0'
+
     // 引入AndroidAutoSize
     api 'me.jessyan:autosize:1.1.2'
 
+    api 'io.netty:netty-all:4.1.36.Final'
+
+    api 'com.alibaba:fastjson:1.2.75'
+
+    api 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+
     api project(':commonlib')
+
+    // 引入Router注解处理器
+    annotationProcessor 'cn.linked.router:apt:1.0.0-SNAPSHOT'
 
     // 引入Router (自研)
     api 'cn.linked.router:api:1.0.0-SNAPSHOT'
+
+    // 引入Retrofit
+    api 'com.squareup.retrofit2:retrofit:2.9.0'
 
 }
