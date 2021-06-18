@@ -1,55 +1,40 @@
 package cn.linked.baselib.common;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.EncodeStrategy;
-import com.bumptech.glide.load.Options;
-import com.bumptech.glide.load.ResourceDecoder;
-import com.bumptech.glide.load.ResourceEncoder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.Resource;
-import com.bumptech.glide.load.resource.SimpleResource;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.tencent.mtt.hippy.adapter.image.HippyDrawable;
 import com.tencent.mtt.hippy.adapter.image.HippyImageLoader;
 import com.tencent.mtt.hippy.utils.ContextHolder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
 public class AppHippyImageLoader extends HippyImageLoader {
+
+    @Override
+    public HippyDrawable getImage(String source, Object param) {
+        if(source!=null&&source.startsWith("/")) {
+            if(source.startsWith("/assets/")) {
+                source="assets://"+source.substring(8);
+            }else {
+                source="assets://"+source.substring(1);
+            }
+        }
+        return super.getImage(source, param);
+    }
+
     @Override
     public void fetchImage(String url, Callback requestListener, Object param) {
-        Glide.with(ContextHolder.getAppContext()).as(ByteArrayOutputStream.class).decode(ByteArrayDecoder.class)
+        Glide.with(ContextHolder.getAppContext()).as(byte[].class)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .load(url).into(new HippyGlideDrawableTarget(requestListener,url));
     }
 
-    public static class ByteArrayDecoder implements ResourceDecoder<InputStream, ByteArrayOutputStream> {
-        @Override
-        public boolean handles(@NonNull InputStream source, @NonNull Options options) throws IOException {
-            return true;
-        }
-        @Nullable
-        @Override
-        public Resource<ByteArrayOutputStream> decode(@NonNull InputStream source, int width, int height, @NonNull Options options) throws IOException {
-            ByteArrayOutputStream result=new ByteArrayOutputStream();
-            int temp=0;
-            while ((temp=source.read())!=-1) {
-                result.write(temp);
-            }
-            return new SimpleResource<>(result);
-        }
-    }
-
-    public static class HippyGlideDrawableTarget extends CustomTarget<ByteArrayOutputStream> {
+    public static class HippyGlideDrawableTarget extends CustomTarget<byte[]> {
 
         private Callback callback;
         private HippyDrawable hippyDrawable;
@@ -62,16 +47,8 @@ public class AppHippyImageLoader extends HippyImageLoader {
         }
 
         @Override
-        public void onResourceReady(@NonNull ByteArrayOutputStream resource, @Nullable Transition<? super ByteArrayOutputStream> transition) {
-//            try {
-//                byte[] ss=new byte[resource.available()];
-//                resource.read(ss);
-//                System.out.println(resource+"============");
-//                hippyDrawable.setData(ss);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            hippyDrawable.setData(resource.toByteArray());
+        public void onResourceReady(@NonNull byte[] resource, @Nullable Transition<? super byte[]> transition) {
+            hippyDrawable.setData(resource);
             callback.onRequestSuccess(hippyDrawable);
         }
 

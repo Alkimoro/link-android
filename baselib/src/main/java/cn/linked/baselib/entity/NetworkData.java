@@ -15,11 +15,11 @@ public class NetworkData {
      *  703 聊天消息确认
      *  704 用户Session过期
      * */
-    public static final int CODE_HEARTBEAT=700;
-    public static final int CODE_BIND_USER=701;
-    public static final int CODE_CHAT_MSG=702;
-    public static final int CODE_CHAT_ACK=703;
-    public static final int CODE_SESSION_INVALID=704;
+    public static final int CODE_HEARTBEAT = 700;
+    public static final int CODE_BIND_USER = 701;
+    public static final int CODE_CHAT_MSG = 702;
+    public static final int CODE_CHAT_ACK = 703;
+    public static final int CODE_SESSION_INVALID = 704;
 
     private int code;
     private String msg;
@@ -30,10 +30,9 @@ public class NetworkData {
         return JSON.toJSONString(this);
     }
 
-    public static NetworkData bindNetworkMessage(long userId,String sessionId) {
+    public static NetworkData bindNetworkMessage(String sessionId) {
         NetworkData bindNetworkMessage=new NetworkData();
         bindNetworkMessage.setCode(CODE_BIND_USER);
-        bindNetworkMessage.setMsg(userId+"");
         bindNetworkMessage.setSessionId(sessionId);
         return bindNetworkMessage;
     }

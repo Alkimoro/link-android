@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import cn.linked.baselib.config.Properties;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
@@ -25,8 +26,6 @@ public class ChatClient extends SocketClient {
 
     public final String host;
     public final int port;
-    public final String localHost="localhost";
-    public final int localPort=8090;
 
     private Bootstrap bootstrap;
     private EventLoopGroup workGroup;
@@ -34,8 +33,6 @@ public class ChatClient extends SocketClient {
     @Getter
     private ChatService chatService;
 
-    @Getter
-    private Long userId;
     @Getter
     private String sessionId;
 
@@ -51,14 +48,14 @@ public class ChatClient extends SocketClient {
     private int maxContentLength=10240;//10 kb
 
     public ChatClient(ChatService chatService) {
-        if(chatService!=null&&!chatService.isDEBUG()) {
-            host="49.234.70.153";
+        if(chatService != null && !Properties.DEBUG) {
+            host = Properties.CHAT_CLIENT_HOST;
+            port = Properties.CHAT_CLIENT_PORT;
         }else {
-            host="localhost";
+            host = Properties.CHAT_CLIENT_DEBUG_HOST;
+            port = Properties.CHAT_CLIENT_DEBUG_PORT;
         }
-        port=8090;
-
-        this.chatService=chatService;
+        this.chatService = chatService;
     }
 
     @Override
@@ -127,10 +124,6 @@ public class ChatClient extends SocketClient {
                 return -1;
             }
         }
-    }
-
-    public void setUserId(@NonNull Long userId) {
-        this.userId=userId;
     }
 
 }

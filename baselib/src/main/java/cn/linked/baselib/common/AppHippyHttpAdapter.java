@@ -1,6 +1,5 @@
 package cn.linked.baselib.common;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import com.tencent.mtt.hippy.adapter.http.HippyHttpAdapter;
@@ -29,10 +28,8 @@ public class AppHippyHttpAdapter implements HippyHttpAdapter {
     @Getter
     private OkHttpClient okHttpClient;
 
-    public AppHippyHttpAdapter(Context context) {
-        okHttpClient=new OkHttpClient.Builder()
-                .cookieJar(new AppCookieJar(context))
-                .build();
+    public AppHippyHttpAdapter(OkHttpClient httpClient) {
+        okHttpClient = httpClient;
     }
 
     public AppCookieJar getCookieJar() {

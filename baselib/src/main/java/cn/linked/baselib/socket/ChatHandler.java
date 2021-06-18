@@ -22,7 +22,7 @@ public class ChatHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        NetworkData bindNetworkMessage=NetworkData.bindNetworkMessage(chatClient.getUserId(),chatClient.getSessionId());
+        NetworkData bindNetworkMessage=NetworkData.bindNetworkMessage(chatClient.getSessionId());
         ctx.channel().writeAndFlush(bindNetworkMessage.toJsonString());
         chatClient.setChatChannel(ctx.channel());
         super.channelActive(ctx);

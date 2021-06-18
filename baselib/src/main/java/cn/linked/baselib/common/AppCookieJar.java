@@ -21,8 +21,8 @@ import okhttp3.HttpUrl;
 
 public class AppCookieJar implements CookieJar {
 
-    public static final String fileName="cookies";
-    public static final String sessionName="SESSION";
+    public static final String fileName = "cookies";
+    public static final String sessionName = "SESSION";
 
     @Getter
     private SharedPreferences store;

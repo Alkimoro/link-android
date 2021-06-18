@@ -16,7 +16,7 @@ import cn.linked.router.common.Route;
 @Route(path = "app/launchActivity")
 public class LaunchActivity extends BaseActivity {
     // 最长展示的时间 以秒为单位
-    private long totalShowTime=3;
+    private long totalShowTime = 3;
     private LoopHandler timerHandler;
     private Runnable timerMsg= this::skip;
     @Override
@@ -31,7 +31,7 @@ public class LaunchActivity extends BaseActivity {
         TextView skipButton=findViewById(R.id.skipButton);
         skipButton.setOnClickListener((e)->{skip();});
         timerHandler.loopPost(()->{
-            int time=timerHandler.getNum()-timerHandler.getCurrentNum()-1;
+            int time=timerHandler.getNum()-timerHandler.getCurrentNum() - 1;
             skipButton.setText("跳过"+time);
         });
     }

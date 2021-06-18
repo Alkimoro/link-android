@@ -22,9 +22,6 @@ import lombok.Getter;
 public class ChatService extends Service {
 
     @Getter
-    private boolean DEBUG=false;
-
-    @Getter
     private int onStartCommandNum=0;
 
     @Getter
@@ -38,16 +35,15 @@ public class ChatService extends Service {
     private IBinder chatController=new IChatController.Stub() {
         @Override
         public int sendChatMessage(ChatMessage message) throws RemoteException {
-            Channel chatChannel=chatClient.getChatChannel();
-            if(chatChannel!=null&&chatChannel.isWritable()) {
+            Channel chatChannel = chatClient.getChatChannel();
+            if(chatChannel != null && chatChannel.isWritable()) {
                 chatChannel.writeAndFlush(NetworkData.formChatMessage(message,chatClient.getSessionId()).toJsonString());
                 return 0;
             }
             return -1;
         }
         @Override
-        public int bindUser(long userId,String sessionId) throws RemoteException {
-            chatClient.setUserId(userId);
+        public int bindUser(String sessionId) throws RemoteException {
             return chatClient.setSessionId(sessionId);
         }
     };
@@ -76,9 +72,6 @@ public class ChatService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         onStartCommandNum++;
-        if(onStartCommandNum==1) {
-            DEBUG=intent.getBooleanExtra("DEBUG",false);
-        }
         Class<?> chatAppService=Router.route("_chat/chatAppService");
         if(chatAppService!=null) {
             Intent appServiceIntent = new Intent();

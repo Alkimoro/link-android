@@ -23,7 +23,7 @@
         <service android:name="cn.linked.baselib.socket.ChatService"
             android:exported="false"
             android:process=":chatProcess"/>
-        <service android:name=".ChatAppService" android:exported="false"/>
+        <service android:name="cn.linked.baselib.socket.ChatAppService" android:exported="false"/>
         <!-- 对标1080*1920 400dpi -->
         <meta-data
             android:name="design_width_in_dp"

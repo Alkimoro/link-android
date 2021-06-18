@@ -5,6 +5,6 @@ interface IChatController {
 
     int sendChatMessage(in ChatMessage message);
 
-    int bindUser(in long userId,in String sessionId);
+    int bindUser(in String sessionId);
 
 }

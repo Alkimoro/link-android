@@ -1,4 +1,4 @@
-package cn.linked.home;
+package cn.linked.baselib.socket;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,12 +7,8 @@ import android.os.RemoteException;
 
 import androidx.annotation.Nullable;
 
-import com.tencent.mtt.hippy.common.HippyMap;
-import com.tencent.mtt.hippy.modules.HippyModuleManager;
-
 import cn.linked.baselib.LinkApplication;
-import cn.linked.baselib.common.ChatHippyJsModule;
-import cn.linked.baselib.common.ChatHippyModule;
+import cn.linked.baselib.common.ChatManager;
 import cn.linked.baselib.entity.ChatMessage;
 import cn.linked.baselib.socket.IChatDispatcher;
 import cn.linked.router.common.Route;
@@ -25,20 +21,16 @@ public class ChatAppService extends Service {
     private IBinder chatDispatcher=new IChatDispatcher.Stub() {
         @Override
         public void deliverChatMessage(ChatMessage message) throws RemoteException {
-            HippyMap params=new HippyMap();
-            HippyModuleManager manager=application().getHippyEngine().getEngineContext().getModuleManager();
-            manager.getNativeModule(ChatHippyModule.class).saveChatMessage(message);
-            manager.getJavaScriptModule(ChatHippyJsModule.class).onReceiveChatMessage(params);
+            ChatManager manager = application().getChatManager();
+            manager.onReceiveChatMessage(message);
         }
         @Override
         public void deliverChatAck(ChatMessage ackMessage) throws RemoteException {
-            application().getHippyEngine().getEngineContext().getModuleManager()
-                    .getNativeModule(ChatHippyModule.class).chatMessageAck(ackMessage);
+            application().getChatManager().onChatMessageAck(ackMessage);
         }
         @Override
         public void networkInactive() throws RemoteException {
-            application().getHippyEngine().getEngineContext().getModuleManager()
-                    .getJavaScriptModule(ChatHippyJsModule.class).onNetworkInactive();
+            application().getChatManager().onNetworkInactive();
         }
     };
 
@@ -52,3 +44,4 @@ public class ChatAppService extends Service {
     }
 
 }
+
