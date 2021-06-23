@@ -51,7 +51,7 @@ public class ChatMessage implements Parcelable {
         public ChatMessage createFromParcel(Parcel in) {
             ChatMessage result;
             String jsonString = in.readString();
-            result = JSON.parseObject(jsonString,ChatMessage.class);
+            result = JSON.parseObject(jsonString, ChatMessage.class);
             return result;
         }
 
@@ -70,4 +70,5 @@ public class ChatMessage implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(JSON.toJSONString(this));
     }
+
 }

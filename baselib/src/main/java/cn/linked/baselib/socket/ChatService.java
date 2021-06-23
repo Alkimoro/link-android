@@ -11,18 +11,21 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import cn.linked.baselib.callback.IBooleanResultCallback;
+import cn.linked.baselib.common.AppNetwork;
 import cn.linked.baselib.entity.ChatMessage;
 import cn.linked.baselib.entity.NetworkData;
 import cn.linked.router.api.Router;
 import cn.linked.router.common.Route;
-import io.netty.channel.Channel;
 import lombok.Getter;
 
 @Route(path = "_chat/chatService")
 public class ChatService extends Service {
 
+    public static final String TAG = "ChatService";
+
     @Getter
-    private int onStartCommandNum=0;
+    private int onStartCommandNum = 0;
 
     @Getter
     private ChatClient chatClient;
@@ -32,48 +35,63 @@ public class ChatService extends Service {
     private boolean isChatAppConnected;
 
     @Getter
-    private IBinder chatController=new IChatController.Stub() {
+    private IBinder chatController = new IChatController.Stub() {
         @Override
-        public int sendChatMessage(ChatMessage message) throws RemoteException {
-            Channel chatChannel = chatClient.getChatChannel();
-            if(chatChannel != null && chatChannel.isWritable()) {
-                chatChannel.writeAndFlush(NetworkData.formChatMessage(message,chatClient.getSessionId()).toJsonString());
-                return 0;
-            }
-            return -1;
+        public void sendChatMessage(ChatMessage message, IBooleanResultCallback callback) throws RemoteException {
+            chatClient.sendNetworkData(NetworkData.formChatMessage(message, chatClient.getSessionId()))
+                    .then(value -> {
+                        try {
+                            callback.callback(true);
+                        }catch (Exception ignored) { }
+                        return null;
+                    }, error -> {
+                        try {
+                            callback.callback(false);
+                        }catch (Exception ignored) { }
+                        return null;
+                    });
         }
         @Override
-        public int bindUser(String sessionId) throws RemoteException {
-            return chatClient.setSessionId(sessionId);
+        public void bindUser(String sessionId) throws RemoteException {
+            chatClient.setSessionId(sessionId);
         }
     };
 
     private ServiceConnection chatAppServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            chatDispatcher=IChatDispatcher.Stub.asInterface(service);
-            isChatAppConnected=true;
+            chatDispatcher = IChatDispatcher.Stub.asInterface(service);
+            isChatAppConnected = true;
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            chatDispatcher=null;
-            isChatAppConnected=false;
+            chatDispatcher = null;
+            isChatAppConnected = false;
         }
     };
 
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(TAG, "onCreate");
         // 初始化聊天客户端 ChatClient
-        chatClient=new ChatClient(this);
+        chatClient = new ChatClient(this);
         chatClient.init();
+        // 注册全局 网络状态监听器
+        AppNetwork.registerNetworkBroadcastReceiver(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        chatClient.destroy();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         onStartCommandNum++;
-        Class<?> chatAppService=Router.route("_chat/chatAppService");
-        if(chatAppService!=null) {
+        Class<?> chatAppService = Router.route("_chat/chatAppService");
+        if(chatAppService != null) {
             Intent appServiceIntent = new Intent();
             appServiceIntent.setPackage("cn.linked.link");
             appServiceIntent.setClass(getApplicationContext(), chatAppService);

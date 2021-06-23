@@ -13,31 +13,28 @@ public class ChatHandler extends ChannelInboundHandlerAdapter {
     private ChatClient chatClient;
 
     public ChatHandler(ChatClient chatClient) {
-        this.chatClient=chatClient;
+        this.chatClient = chatClient;
     }
 
-    public IChatDispatcher getChatDispatcher() {
+    private IChatDispatcher getChatDispatcher() {
         return chatClient.getChatService().getChatDispatcher();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        NetworkData bindNetworkMessage=NetworkData.bindNetworkMessage(chatClient.getSessionId());
-        ctx.channel().writeAndFlush(bindNetworkMessage.toJsonString());
-        chatClient.setChatChannel(ctx.channel());
+        chatClient.channelActive(ctx.channel());
         super.channelActive(ctx);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        chatClient.setChatChannel(null);
-        getChatDispatcher().networkInactive();
+        chatClient.channelInactive(ctx.channel());
         super.channelInactive(ctx);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        NetworkData message= JSON.parseObject(msg.toString(), NetworkData.class);
+        NetworkData<?> message= (NetworkData<?>) msg;
         switch (message.getCode()) {
             case NetworkData.CODE_CHAT_ACK : {
                 ChatMessage chatAckMessage = JSON.toJavaObject((JSONObject) message.getData(), ChatMessage.class);

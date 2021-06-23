@@ -1,4 +1,4 @@
-package cn.linked.link;
+package cn.linked.link.business.main;
 
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -12,11 +12,16 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import cn.linked.baselib.BaseActivity;
+import cn.linked.baselib.ui.dialog.MessageDialog;
 import cn.linked.commonlib.viewmodel.UpdatePanelViewModel;
-import cn.linked.link.databinding.ActivityMainBinding;
+import cn.linked.link.NavigationPagerAdapter;
+import cn.linked.link.R;
+import cn.linked.link.databinding.LayoutMainBinding;
 import cn.linked.router.api.Router;
+import cn.linked.router.common.Route;
 
-public class HomeActivity extends BaseActivity {
+@Route(path = "app/mainActivity")
+public class MainActivity extends BaseActivity {
     private long lastBackPressedTime=-1;
     private final long exitAppIntervalTime=1000;
 
@@ -25,7 +30,14 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityMainBinding activityMainBinding=ActivityMainBinding.inflate(getLayoutInflater(),null,false);
+        getLinkApplication().getChatManager().bindUser().catchError(error -> {
+            MessageDialog dialog = new MessageDialog(this);
+            dialog.setMessage("聊天服务启动失败，请重启应用或清空数据").setButton("确定", v -> {
+                dialog.cancel();
+            });
+            return null;
+        });
+        LayoutMainBinding activityMainBinding= LayoutMainBinding.inflate(getLayoutInflater(),null,false);
         setContentView(activityMainBinding.getRoot());
         initPager();
     }

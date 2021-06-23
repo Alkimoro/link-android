@@ -12,6 +12,7 @@ import cn.linked.baselib.common.AppNetwork;
 import cn.linked.baselib.config.Properties;
 import cn.linked.baselib.entity.ChatMessage;
 import cn.linked.baselib.entity.HttpResult;
+import cn.linked.baselib.repository.RetrofitManager;
 import cn.linked.baselib.repository.dao.ChatDao;
 import cn.linked.baselib.repository.protocol.ChatProtocol;
 import cn.linked.commonlib.promise.Promise;
@@ -19,7 +20,6 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class ChatRepository {
 
@@ -62,7 +62,7 @@ public class ChatRepository {
             list = new ArrayList<>();
         }
         if(needRequestNetwork && (AppNetwork.isNetworkConnected() || Properties.DEBUG)) {
-            new Retrofit.Builder().baseUrl(Properties.getBaseURL()).client(httpClient).build().create(ChatProtocol.class)
+            RetrofitManager.getService(ChatProtocol.class)
                     .getChatMessage(groupId, maxSequenceNumber, num).enqueue(new Callback<HttpResult<List<ChatMessage>>>() {
                 @Override
                 public void onResponse(Call<HttpResult<List<ChatMessage>>> call, Response<HttpResult<List<ChatMessage>>> response) {

@@ -47,6 +47,26 @@ public class Promise<V> {
         return this;
     }
 
+    private void setState(PromiseState state) {
+        synchronized (this) {
+            this.state = state;
+            this.notifyAll();
+        }
+    }
+
+    public Promise<V> sync() {
+        if(this.state == PromiseState.PENDING) {
+            synchronized (this) {
+                try {
+                    if(this.state == PromiseState.PENDING) {
+                        this.wait();
+                    }
+                }catch (InterruptedException ignored) { }
+            }
+        }
+        return this;
+    }
+
     public <Y> Promise<Y> catchError(PromiseCallback<Throwable,Y> reject) {
         return then(null, reject);
     }
@@ -74,13 +94,13 @@ public class Promise<V> {
             try {
                 if(preState == PromiseState.FULFILLED) { this.value = (V) this.fulfilledCallback.callback(value); }
                 else { this.value = (V) this.rejectedCallback.callback(error); }
-                this.state = PromiseState.FULFILLED;
+                setState(PromiseState.FULFILLED);
             }catch (Throwable e) {
                 this.error = e;
-                this.state = PromiseState.REJECTED;
+                setState(PromiseState.REJECTED);
             }
         }else {
-            this.state = preState;
+            setState(preState);
             if(this.state == PromiseState.FULFILLED) { this.value = (V) value; }
             else if(this.state == PromiseState.REJECTED) { this.error = error; }
         }

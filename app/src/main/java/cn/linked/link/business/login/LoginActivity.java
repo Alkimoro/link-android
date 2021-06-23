@@ -1,4 +1,4 @@
-package cn.linked.link;
+package cn.linked.link.business.login;
 
 import android.os.Bundle;
 
@@ -13,6 +13,12 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(new LoginViewDelegate(this, getContentView(), new LoginViewModel()).getRootView());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
 import cn.linked.baselib.LinkApplication;
+import cn.linked.baselib.callback.IBooleanResultCallback;
 import cn.linked.baselib.entity.ChatMessage;
 import cn.linked.baselib.repository.entry.ChatRepository;
 import cn.linked.baselib.socket.ChatService;
@@ -85,12 +86,16 @@ public class ChatManager {
                 }
             }
             try {
-                int status = chatController.sendChatMessage(message);
-                if(status == 0) {
-                    noAckMessageMap.put(tempAckId, promise);
-                }else {
-                    promise.reject(new ChatServiceException());
-                }
+                chatController.sendChatMessage(message, new IBooleanResultCallback.Stub() {
+                    @Override
+                    public void callback(boolean value) throws RemoteException {
+                        if(value) {
+                            noAckMessageMap.put(tempAckId, promise);
+                        }else {
+                            promise.reject(new ChatServiceException());
+                        }
+                    }
+                });
             } catch (RemoteException e) {
                 promise.reject(e);
             }
@@ -112,7 +117,11 @@ public class ChatManager {
         }
     }
 
-    public void onNetworkInactive() {
+    public void onChannelActive() {
+
+    }
+
+    public void onChannelInactive() {
 
     }
 
@@ -137,16 +146,15 @@ public class ChatManager {
         chatMessageListenerSet.remove(listener);
     }
 
-    public Promise<Boolean> bindUser() {
-        Promise<Boolean> promise = new Promise<>();
+    public Promise<?> bindUser() {
+        Promise<?> promise = new Promise<>();
         Runnable task = () -> {
             try {
-                int status = chatController.bindUser(getApplicationContext().getSessionId());
-                if(status == 0) {
-                    promise.resolve(true);
-                }
-            } catch (RemoteException ignored) { }
-            promise.resolve(false);
+                chatController.bindUser(getApplicationContext().getSessionId());
+                promise.resolve(null);
+            } catch (RemoteException e) {
+                promise.reject(null);
+            }
         };
         workers.submit(task);
         return promise;

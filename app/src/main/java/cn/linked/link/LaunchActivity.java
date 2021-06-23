@@ -10,7 +10,9 @@ import androidx.annotation.Nullable;
 import cn.linked.baselib.BaseActivity;
 import cn.linked.baselib.LinkApplication;
 import cn.linked.commonlib.util.common.LoopHandler;
-import cn.linked.link.databinding.LaunchBinding;
+import cn.linked.link.business.main.MainActivity;
+import cn.linked.link.business.login.LoginActivity;
+import cn.linked.link.databinding.LayoutLaunchBinding;
 import cn.linked.router.common.Route;
 
 @Route(path = "app/launchActivity")
@@ -22,7 +24,7 @@ public class LaunchActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LaunchBinding launchBinding=LaunchBinding.inflate(getLayoutInflater(),null,false);
+        LayoutLaunchBinding launchBinding=LayoutLaunchBinding.inflate(getLayoutInflater(),null,false);
         launchBinding.setM(getResources().getDisplayMetrics());
         setContentView(launchBinding.getRoot());
 
@@ -51,9 +53,9 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void redirect(){
-        Class<?> target=HomeActivity.class;
+        Class<?> target= MainActivity.class;
         if(getLinkApplication().getSessionId()==null) {
-            target=LoginActivity.class;
+            target= LoginActivity.class;
         }
         Intent intent=new Intent(getApplication(),target);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

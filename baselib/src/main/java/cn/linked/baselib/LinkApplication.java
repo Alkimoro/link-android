@@ -2,6 +2,8 @@ package cn.linked.baselib;
 
 import android.app.Application;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.util.Log;
 
@@ -21,9 +23,11 @@ import cn.linked.baselib.common.AppCookieJar;
 import cn.linked.baselib.common.AppHippyEngineMonitorAdapter;
 import cn.linked.baselib.common.AppHippyHttpAdapter;
 import cn.linked.baselib.common.AppHippyImageLoader;
+import cn.linked.baselib.common.AppNetwork;
 import cn.linked.baselib.common.ChatHippyAPIProvider;
 import cn.linked.baselib.common.ChatManager;
 import cn.linked.baselib.config.Properties;
+import cn.linked.baselib.repository.OkHttpClientManager;
 import cn.linked.router.api.Router;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
@@ -75,11 +79,12 @@ public class LinkApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i("LinkApplication","Application on create");
+        INSTANCE = this;
         appDatabase = Room.databaseBuilder(this, AppDatabase.class, Properties.APP_DATABASE_NAME).build();
         commonHandler = new Handler();
         chatManager = new ChatManager(this);
         // 初始化 HttpClient
-        initHttpClient();
+        httpClient = OkHttpClientManager.getOkHttpClient();
         // 初始化HippyEngine
         if(Properties.ENABLE_HIPPY_ENGINE) { initHippyEngine(); }
         // 初始化Router
@@ -88,13 +93,8 @@ public class LinkApplication extends Application {
         Intent serviceIntent = new Intent();
         serviceIntent.setClass(this, Router.route("_chat/chatService"));
         startService(serviceIntent);
-        INSTANCE = this;
-    }
-
-    private void initHttpClient() {
-        httpClient=new OkHttpClient.Builder()
-                .cookieJar(new AppCookieJar(this))
-                .build();
+        // 注册全局 网络状态监听器
+        AppNetwork.registerNetworkBroadcastReceiver(this);
     }
 
     public <T> T getInstance(@NonNull String name, Class<T> clazz) {
@@ -210,7 +210,7 @@ public class LinkApplication extends Application {
     }
 
     public String getSessionId() {
-        return ((AppCookieJar) httpClient.cookieJar()).getSessionId();
+        return AppCookieJar.getSessionId(this);
     }
 
     public boolean isSessionInvalid() {

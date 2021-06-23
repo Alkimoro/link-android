@@ -2,38 +2,38 @@
  * 全局统一配置
  */
 ext {
+
     /**
      * module开关统一声明在此处
      * true：module作为application，可单独打包为apk
      * false：module作为library，可作为宿主application的组件
      */
-
-    independentModule=false
+    independentModule = true
 
     /**
      * 版本统一管理
      */
     versions = [
-            applicationId           : "cn.linked.link",     //应用ID
-            versionCode             : 1,                    //版本号
-            versionName             : "1.0.0",              //版本名称
+            applicationId                             : "cn.linked.link",       //应用ID
+            versionCode                             : 1,                          //版本号
+            versionName                             : "1.0.0",                  //版本名称
 
-            compileSdkVersion       : 29,
-            minSdkVersion           : 21,
-            targetSdkVersion        : 29,
-            buildversion            : "29.0.2",
+            compileSdkVersion                    : 29,
+            minSdkVersion                          : 21,
+            targetSdkVersion                      : 29,
+            buildversion                              : "29.0.2",
 
-            appcompatVersion        : "1.1.0",
-            constraintlayoutVersion : "1.1.3",
-            junitVersion            : "4.12",
-            espressoVersion         : "3.2.0",
-            navgation_version       : "2.3.0"
+            appcompatVersion                     : "1.1.0",
+            constraintlayoutVersion              : "1.1.3",
+            junitVersion                               : "4.12",
+            espressoVersion                        : "3.2.0",
+            navgation_version                      : "2.3.0"
     ]
 
     dependencies = [
-            "appcompat"             : "androidx.appcompat:appcompat:${versions["appcompatVersion"]}",
-            "constraintlayout"      : "androidx.constraintlayout:constraintlayout:${versions["constraintlayoutVersion"]}",
-            "espresso_core"         : "androidx.test.espresso:espresso-core:${versions["espressoVersion"]}",
-            "junit"                 : "junit:junit:${versions["junitVersion"]}",
+            "appcompat"                              : "androidx.appcompat:appcompat:${versions["appcompatVersion"]}",
+            "constraintlayout"                       : "androidx.constraintlayout:constraintlayout:${versions["constraintlayoutVersion"]}",
+            "espresso_core"                         : "androidx.test.espresso:espresso-core:${versions["espressoVersion"]}",
+            "junit"                                        : "junit:junit:${versions["junitVersion"]}",
     ]
 }

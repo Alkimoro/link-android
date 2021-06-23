@@ -7,4 +7,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <declare-styleable name="AppScrollView">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundRectShadowCoverView">
+        <attr name="contentBackground" format="reference|color" />
+
+        <attr name="shadowStartColor" format="reference|color" />
+        <attr name="shadowEndColor" format="reference|color" />
+
+        <attr name="shadowOffsetX" format="dimension" />
+        <attr name="shadowOffsetY" format="dimension" />
+
+        <attr name="shadowExtension" format="dimension" />
+
+        <attr name="shadowRadius" format="dimension" />
+
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="cornerRadiusLT" format="dimension" />
+        <attr name="cornerRadiusLB" format="dimension" />
+        <attr name="cornerRadiusRT" format="dimension" />
+        <attr name="cornerRadiusRB" format="dimension" />
+    </declare-styleable>
+
 </resources>

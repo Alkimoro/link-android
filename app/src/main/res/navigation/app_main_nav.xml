@@ -10,10 +10,10 @@
         android:id="@+id/mainActivity"
         android:name="cn.linked.link.MainActivity"
         android:label="activity_main"
-        tools:layout="@layout/activity_main" />
+        tools:layout="@layout/layout_main" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="cn.linked.home.HomeFragment"
+        android:name="cn.linked.home.business.home.HomeFragment"
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/mineFragment"

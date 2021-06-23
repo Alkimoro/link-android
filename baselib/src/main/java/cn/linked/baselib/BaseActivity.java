@@ -1,18 +1,21 @@
 package cn.linked.baselib;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 
 import cn.linked.router.api.Router;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements UIContext {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,10 @@ public class BaseActivity extends AppCompatActivity {
         finish();
     }
 
+    public ViewGroup getContentView() {
+        return getWindow().getDecorView().findViewById(android.R.id.content);
+    }
+
     public LinkApplication getLinkApplication() {
         return (LinkApplication) getApplication();
     }
@@ -95,5 +102,15 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public LifecycleOwner getLifecycleOwner() {
+        return this;
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

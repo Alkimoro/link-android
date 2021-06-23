@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NetworkData {
+public class NetworkData<T> {
 
     /**
      *  700 心跳
@@ -23,28 +23,28 @@ public class NetworkData {
 
     private int code;
     private String msg;
-    private Object data;
+    private T data;
     private String sessionId;
 
     public String toJsonString() {
         return JSON.toJSONString(this);
     }
 
-    public static NetworkData bindNetworkMessage(String sessionId) {
-        NetworkData bindNetworkMessage=new NetworkData();
+    public static NetworkData<Object> bindNetworkMessage(String sessionId) {
+        NetworkData<Object> bindNetworkMessage=new NetworkData<>();
         bindNetworkMessage.setCode(CODE_BIND_USER);
         bindNetworkMessage.setSessionId(sessionId);
         return bindNetworkMessage;
     }
 
-    public static NetworkData heartbeatMessage() {
-        NetworkData data=new NetworkData();
+    public static NetworkData<Object> heartbeatMessage() {
+        NetworkData<Object> data=new NetworkData<>();
         data.code=CODE_HEARTBEAT;
         return data;
     }
 
-    public static NetworkData formChatMessage(ChatMessage message,String sessionId) {
-        NetworkData data=new NetworkData();
+    public static NetworkData<ChatMessage> formChatMessage(ChatMessage message,String sessionId) {
+        NetworkData<ChatMessage> data=new NetworkData<>();
         data.code=CODE_CHAT_MSG;
         data.data=message;
         data.setSessionId(sessionId);

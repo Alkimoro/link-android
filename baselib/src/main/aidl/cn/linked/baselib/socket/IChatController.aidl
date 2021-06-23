@@ -1,10 +1,12 @@
 package cn.linked.baselib.socket;
 
-import cn.linked.baselib.entity.IChatMessage;
+import cn.linked.baselib.entity.ChatMessage;
+import cn.linked.baselib.callback.IBooleanResultCallback;
+
 interface IChatController {
 
-    int sendChatMessage(in ChatMessage message);
+    void sendChatMessage(in ChatMessage message, IBooleanResultCallback callback);
 
-    int bindUser(in String sessionId);
+    void bindUser(in String sessionId);
 
 }

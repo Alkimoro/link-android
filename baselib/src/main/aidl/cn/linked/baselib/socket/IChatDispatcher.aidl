@@ -1,10 +1,15 @@
 package cn.linked.baselib.socket;
 
-import cn.linked.baselib.entity.IChatMessage;
+import cn.linked.baselib.entity.ChatMessage;
+
 interface IChatDispatcher {
 
     void deliverChatMessage(in ChatMessage message);
+
     void deliverChatAck(in ChatMessage ackMessage);
-    void networkInactive();
+
+    void channelActive();
+
+    void channelInactive();
 
 }

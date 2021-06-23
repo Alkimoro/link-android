@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <cn.linked.commonlib.view.StatusBarPaddingFrameLayout
+        android:background="@color/lightGray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_height="62dp">
+
+            <cn.linked.commonlib.view.RoundRectShadowCoverView
+                app:cornerRadius="22dp"
+                app:contentBackground="@drawable/img_default_user_head_img"
+                android:layout_width="44dp"
+                android:layout_height="44dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_height="44dp">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:textColor="@color/black"
+                    android:text="Potato"
+                    android:textSize="18dp"
+                    android:layout_weight="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="2.2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp">
+                    <cn.linked.commonlib.view.RoundRectShadowCoverView
+                        app:cornerRadius="5dp"
+                        app:contentBackground="@color/pink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="12dp"
+                            android:text="大会员"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"/>
+                    </cn.linked.commonlib.view.RoundRectShadowCoverView>
+                    <TextView
+                        android:layout_marginStart="10dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/darkGray"
+                        android:text="在线"
+                        android:textSize="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:src="@drawable/shape_home_title_bar_more"
+                    android:layout_gravity="center"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </cn.linked.commonlib.view.StatusBarPaddingFrameLayout>
+
+    <LinearLayout
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:src="@drawable/shape_home_info_bar_left_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="江山易老吗 几度斑驳"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/darkGray"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"/>
+
+        <ImageView
+            android:src="@drawable/shape_home_info_bar_right_icon"
+            android:layout_marginEnd="5dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"/>
+        
+    </LinearLayout>
+    
+    <ListView
+        android:id="@+id/sessionList"
+        android:dividerHeight="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+    
+</LinearLayout>

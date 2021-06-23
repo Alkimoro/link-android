@@ -28,7 +28,7 @@ public class AppCookieJar implements CookieJar {
     private SharedPreferences store;
 
     public AppCookieJar(@NonNull Context context) {
-        store=context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        store = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -40,19 +40,19 @@ public class AppCookieJar implements CookieJar {
             stringSet.add(cookieToString(cookie));
             if(cookie.name().equals(sessionName)&&!isSaveSession) {
                 isSaveSession=true;
-                editor.putString(sessionName,cookie.value());
+                editor.putString(sessionName,cookie.value()).apply();
             }
         }
         editor.putStringSet(url.toString(),stringSet).apply();
     }
 
     private String cookieToString(Cookie cookie) {
-        return String.format("{name:%s,value:%s,expiresAt:%s,domain:%s,path:%s,secure:%s,httpOnly:%s}",
+        return String.format("{name:'%s',value:'%s',expiresAt:%s,domain:'%s',path:'%s',secure:%s,httpOnly:%s}",
                 cookie.name(),cookie.value(),cookie.expiresAt(),cookie.domain(),cookie.path(),cookie.secure(),cookie.httpOnly());
     }
 
-    public String getSessionId() {
-        return store.getString(sessionName,null);
+    public static String getSessionId(@NonNull Context context) {
+        return context.getSharedPreferences(fileName, Context.MODE_PRIVATE).getString(sessionName, null);
     }
 
     @Override

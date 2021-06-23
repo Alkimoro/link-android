@@ -29,8 +29,12 @@ public class ChatAppService extends Service {
             application().getChatManager().onChatMessageAck(ackMessage);
         }
         @Override
-        public void networkInactive() throws RemoteException {
-            application().getChatManager().onNetworkInactive();
+        public void channelActive() throws RemoteException {
+            application().getChatManager().onChannelActive();
+        }
+        @Override
+        public void channelInactive() throws RemoteException {
+            application().getChatManager().onChannelInactive();
         }
     };
 

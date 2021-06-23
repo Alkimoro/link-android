@@ -63,6 +63,7 @@ dependencies {
 
     // 引入Retrofit
     api 'com.squareup.retrofit2:retrofit:2.9.0'
+    api 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     // RoomDatabase
     def room_version = "2.3.0"

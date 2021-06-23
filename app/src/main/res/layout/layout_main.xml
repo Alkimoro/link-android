@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </FrameLayout>
-        <include layout="@layout/navigation_main"
+        <include layout="@layout/layout_main_navigation"
             android:layout_height="70dp"
             android:layout_width="match_parent" />
 

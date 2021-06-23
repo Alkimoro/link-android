@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-public class MineActivity extends AppCompatActivity {
+import cn.linked.baselib.BaseActivity;
+import cn.linked.baselib.LinkApplication;
+
+public class MineActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,4 +43,11 @@ public class MineActivity extends AppCompatActivity {
         super.onDestroy();
         System.out.println("onDestroy");
     }
+
+    @Override
+    protected void restartApp() {
+        LinkApplication application=(LinkApplication) getApplication();
+        application.appStatus=LinkApplication.APP_STATUS_NORMAL;
+    }
+
 }

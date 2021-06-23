@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="70dp"
+    android:layout_width="match_parent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <cn.linked.commonlib.view.RoundRectShadowCoverView
+        android:id="@+id/sessionImg"
+        app:contentBackground="@color/middleDarkGray"
+        app:cornerRadius="27dp"
+        android:layout_width="54dp"
+        android:layout_height="54dp"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_marginStart="10dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="16dp"
+            android:text="默认聊天session名"
+            android:ellipsize="end"
+            android:lines="1"
+            android:paddingBottom="5dp"
+            android:gravity="bottom"
+            android:textColor="@color/black"
+            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <TextView
+            android:textSize="14dp"
+            android:text="默认用户名:欲知后事如何，且听我下回分说"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/darkGray"
+            android:paddingBottom="8dp"
+            android:gravity="bottom"
+            android:layout_weight="1.7"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <TextView
+            android:textSize="14dp"
+            android:textColor="@color/darkGray"
+            android:text="上午10:22"
+            android:gravity="center_vertical"
+            android:layout_gravity="end"
+            android:layout_weight="2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"/>
+        <cn.linked.commonlib.view.RoundRectShadowCoverView
+            android:layout_weight="1.7"
+            app:cornerRadius="13dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_gravity="end"
+            app:contentBackground="@color/pink"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp">
+            <TextView
+                android:textColor="@color/white"
+                android:text="87"
+                android:textSize="14dp"
+                android:layout_marginStart="4.5dp"
+                android:layout_marginEnd="4.5dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </cn.linked.commonlib.view.RoundRectShadowCoverView>
+    </LinearLayout>
+
+</LinearLayout>

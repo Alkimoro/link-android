@@ -1,16 +1,23 @@
 package cn.linked.baselib.common;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+
+import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.linked.baselib.LinkApplication;
+import lombok.Getter;
 
 public class AppNetwork {
+
+    @Getter
+    private static NetworkBroadcastReceiver networkBroadcastReceiver = new NetworkBroadcastReceiver();
 
     private static final Map<Integer,NetworkState> networkStateMap = new HashMap<>();
     static {
@@ -40,6 +47,23 @@ public class AppNetwork {
 
         // TelephonyManager.NETWORK_TYPE_NR
         networkStateMap.put(20, NetworkState.NET_5G);
+    }
+
+    public static void registerNetworkBroadcastReceiver(@NonNull Context context) {
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        context.registerReceiver(networkBroadcastReceiver, intentFilter);
+    }
+
+    public static void unregisterNetworkBroadcastReceiver(@NonNull Context context) {
+        context.unregisterReceiver(networkBroadcastReceiver);
+    }
+
+    public static void addNetworkListener(NetworkBroadcastReceiver.NetworkListener listener) {
+        networkBroadcastReceiver.addNetworkListener(listener);
+    }
+
+    public static void removeNetworkListener(NetworkBroadcastReceiver.NetworkListener listener) {
+        networkBroadcastReceiver.removeNetworkListener(listener);
     }
 
     /**
