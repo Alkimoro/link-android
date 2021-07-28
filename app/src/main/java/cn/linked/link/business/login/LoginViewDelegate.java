@@ -45,7 +45,6 @@ public class LoginViewDelegate extends BaseViewDelegate {
                 try {
                     this.viewModel.login(Long.parseLong(userIdEditText.getText().toString()), passwordEditText.getText().toString());
                 }catch (Exception e) {
-                    e.printStackTrace();
                     MessageDialog dialog = new MessageDialog(getUiContext().getContext());
                     dialog.setMessage("输入错误，请检查数据格式。").setButton("确定", v -> {
                         dialog.cancel();
@@ -57,7 +56,7 @@ public class LoginViewDelegate extends BaseViewDelegate {
 
         this.addAndObserve(viewModel.getLoginStateLiveData(), value -> {
             if(value instanceof User) {
-                Intent intent=new Intent(LinkApplication.getInstance(), Router.route("app/mainActivity"));
+                Intent intent = new Intent(LinkApplication.getInstance(), Router.route("app/mainActivity"));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getUiContext().getContext().startActivity(intent);
                 if(getUiContext().getContext() instanceof Activity) {

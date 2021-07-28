@@ -13,4 +13,8 @@ public interface UserProtocol {
     @POST("link/userController/login")
     Call<HttpResult<User>> login(@Field("userId") Long userId, @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST("link/userController/getUserById")
+    Call<HttpResult<User>> getUserById(@Field("id") Long id);
+
 }

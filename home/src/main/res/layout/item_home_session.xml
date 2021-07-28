@@ -23,6 +23,7 @@
         android:layout_marginStart="10dp"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/sessionTitle"
             android:textSize="16dp"
             android:text="默认聊天session名"
             android:ellipsize="end"
@@ -34,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"/>
         <TextView
+            android:id="@+id/sessionMessage"
             android:textSize="14dp"
             android:text="默认用户名:欲知后事如何，且听我下回分说"
             android:ellipsize="end"
@@ -53,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
         <TextView
+            android:id="@+id/sessionMessageTime"
             android:textSize="14dp"
             android:textColor="@color/darkGray"
             android:text="上午10:22"
@@ -71,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp">
             <TextView
+                android:id="@+id/sessionMessageNum"
                 android:textColor="@color/white"
                 android:text="87"
                 android:textSize="14dp"

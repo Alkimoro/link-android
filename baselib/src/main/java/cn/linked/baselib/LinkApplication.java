@@ -2,8 +2,6 @@ package cn.linked.baselib;
 
 import android.app.Application;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Handler;
 import android.util.Log;
 
@@ -27,7 +25,9 @@ import cn.linked.baselib.common.AppNetwork;
 import cn.linked.baselib.common.ChatHippyAPIProvider;
 import cn.linked.baselib.common.ChatManager;
 import cn.linked.baselib.config.Properties;
+import cn.linked.baselib.entity.User;
 import cn.linked.baselib.repository.OkHttpClientManager;
+import cn.linked.baselib.repository.entry.UserRepository;
 import cn.linked.router.api.Router;
 import lombok.Getter;
 import okhttp3.OkHttpClient;
@@ -51,9 +51,6 @@ public class LinkApplication extends Application {
     private HippyEngine hippyEngine;
 
     @Getter
-    private ChatManager chatManager;
-
-    @Getter
     private LinkAppInitListener initListener;
 
     @Getter
@@ -62,7 +59,6 @@ public class LinkApplication extends Application {
     @Getter
     private OkHttpClient httpClient;
 
-    @Getter
     private AppDatabase appDatabase;
 
     private boolean isNotifiedInitListener = false;
@@ -80,9 +76,7 @@ public class LinkApplication extends Application {
         super.onCreate();
         Log.i("LinkApplication","Application on create");
         INSTANCE = this;
-        appDatabase = Room.databaseBuilder(this, AppDatabase.class, Properties.APP_DATABASE_NAME).build();
         commonHandler = new Handler();
-        chatManager = new ChatManager(this);
         // 初始化 HttpClient
         httpClient = OkHttpClientManager.getOkHttpClient();
         // 初始化HippyEngine
@@ -95,6 +89,24 @@ public class LinkApplication extends Application {
         startService(serviceIntent);
         // 注册全局 网络状态监听器
         AppNetwork.registerNetworkBroadcastReceiver(this);
+    }
+
+    /**
+     *  像这些初始化时间长的全局对象
+     *      可以在合适的地方new一个线程调用下Get方法进行初始化    可能需要开发个统一管理模块
+     * */
+    public AppDatabase getAppDatabase() {
+        if(appDatabase == null) {
+            synchronized (this) {
+                if(appDatabase == null) {
+                    appDatabase = Room.databaseBuilder(this, AppDatabase.class, Properties.APP_DATABASE_NAME).build();
+                }
+            }
+        }
+        return appDatabase;
+    }
+    public ChatManager getChatManager() {
+        return getAndCreateInstance(ChatManager.class);
     }
 
     public <T> T getInstance(@NonNull String name, Class<T> clazz) {
@@ -213,9 +225,8 @@ public class LinkApplication extends Application {
         return AppCookieJar.getSessionId(this);
     }
 
-    public boolean isSessionInvalid() {
-        // todo Retrofit 访问服务端接口
-        return false;
+    public User getCurrentUser() {
+        return getAndCreateInstance(UserRepository.class).getCurrentUser();
     }
 
     public interface LinkAppInitListener {
@@ -224,6 +235,17 @@ public class LinkApplication extends Application {
 
     public static String getHippyJsAssetsPath(String componentName) {
         return Properties.HIPPY_JS_DIR + componentName+".android.js";
+    }
+
+    public static ActivityManager getActivityManager() {
+        return BaseActivity.getActivityManager();
+    }
+
+    public void restartApp() {
+        Log.i(TAG, "APP 重新启动 当前Activity：" + getClass().getName());
+        getActivityManager().finishAllActivity(false);
+        Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+        startActivity(intent);
     }
 
 }

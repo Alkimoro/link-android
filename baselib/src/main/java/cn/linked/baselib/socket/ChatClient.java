@@ -24,7 +24,6 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-import io.netty.util.concurrent.Future;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,13 +55,22 @@ public class ChatClient extends ChannelInitializer<SocketChannel> {
     @Getter@Setter
     private int lengthFieldLength = 2;
     @Getter@Setter
-    private int maxContentLength = 10240;//10 kb
+    private int maxContentLength = 10240;// 10 kb
 
     private NetworkBroadcastReceiver.NetworkListener networkListener = state -> {
         if(Properties.DEBUG) {
-            Log.i(TAG, "监听到网络状态变化，当前状态:" + AppNetwork.getNetworkState());
+            Log.i(TAG, "监听到网络状态变化，当前状态:" + state);
         }
-        if(AppNetwork.isNetworkConnected()) {
+        if(state == AppNetwork.NetworkState.NO_NETWORK && chatChannel != null) {
+            Channel temp = chatChannel;
+            chatChannel = null;
+            try {
+                Log.i(TAG, "channelInActive");
+                chatService.getChatDispatcher().channelInactive();
+            }catch (Exception ignored) { }
+            temp.disconnect();
+        }
+        if(state != AppNetwork.NetworkState.NO_NETWORK) {
             connect();
         }
     };
@@ -82,19 +90,19 @@ public class ChatClient extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
 
-        socketChannel.pipeline().addLast("idleStateHandler",new IdleStateHandler(0, heartbeatIdle, 0));
+        socketChannel.pipeline().addLast("idleStateHandler", new IdleStateHandler(0, heartbeatIdle, 0));
 
         socketChannel.pipeline().addLast("packageDecoder",
-                new LengthFieldBasedFrameDecoder(lengthFieldLength+maxContentLength,
-                        0,lengthFieldLength,0,0,true));
-        socketChannel.pipeline().addLast("packageEncoder", new LengthFieldPrepender(lengthFieldLength,false));
+                new LengthFieldBasedFrameDecoder(lengthFieldLength + maxContentLength,
+                        0, lengthFieldLength, 0, lengthFieldLength, true));
+        socketChannel.pipeline().addLast("packageEncoder", new LengthFieldPrepender(lengthFieldLength, false));
 
         socketChannel.pipeline().addLast("utf8Decoder", new StringDecoder(CharsetUtil.UTF_8));
         socketChannel.pipeline().addLast("utf8Encoder", new StringEncoder(CharsetUtil.UTF_8));
 
-        socketChannel.pipeline().addLast("inboundDataParseHandler",new InboundDataParseHandler());
+        socketChannel.pipeline().addLast("inboundDataParseHandler", new InboundDataParseHandler());
 
-        socketChannel.pipeline().addLast("heartbeatHandler",new ClientHeartbeatHandler());
+        socketChannel.pipeline().addLast("heartbeatHandler", new ClientHeartbeatHandler());
         // ===业务Handler===
         socketChannel.pipeline().addLast("chatHandler", new ChatHandler(this));
 
@@ -115,8 +123,8 @@ public class ChatClient extends ChannelInitializer<SocketChannel> {
                 .option(ChannelOption.SO_KEEPALIVE, true);
     }
 
-    public <T> Promise<?> sendNetworkData(NetworkData<T> networkData) {
-        Promise<?> promise = new Promise<>();
+    public <T> Promise<Void> sendNetworkData(NetworkData<T> networkData) {
+        Promise<Void> promise = new Promise<>();
         if(networkData == null || networkData.getSessionId() == null) {
             promise.reject(null);
         }else {
@@ -134,10 +142,17 @@ public class ChatClient extends ChannelInitializer<SocketChannel> {
     }
 
     void channelActive(Channel channel) {
+        NetworkData<Object> bindNetworkMessage = NetworkData.bindNetworkMessage(sessionId);
+        channel.writeAndFlush(bindNetworkMessage.toJsonString());
+        Log.i(TAG, "channelActive");
+    }
+
+    void onBindAck(Channel channel) {
         this.chatChannel = channel;
         isChatChannelConnecting = false;
         NetworkData<Object> bindNetworkMessage = NetworkData.bindNetworkMessage(sessionId);
         channel.writeAndFlush(bindNetworkMessage.toJsonString());
+        Log.i(TAG, "onBindAck");
         try {
             chatService.getChatDispatcher().channelActive();
         } catch (Exception ignored) { }
@@ -147,6 +162,7 @@ public class ChatClient extends ChannelInitializer<SocketChannel> {
     void channelInactive(Channel channel) {
         if(channel != null && channel == this.chatChannel) {
             this.chatChannel = null;
+            Log.i(TAG, "channelInActive");
             try {
                 chatService.getChatDispatcher().channelInactive();
             }catch (Exception ignored) { }

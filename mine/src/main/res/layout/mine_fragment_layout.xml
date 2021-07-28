@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <import alias="Unit" type="cn.linked.commonlib.util.UnitUtil"/>
-        <variable name="m" type="android.util.DisplayMetrics" />
-    </data>
-    <FrameLayout
-        android:transitionName="mainMineFragmentTransition"
-        android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:transitionName="mainMineFragmentTransition"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cn.linked.commonlib.view.RoundRectShadowCoverView
+        app:contentBackground="@color/white"
+        app:shadowRadius="10dp"
+        app:shadowStartColor="#1400DDFF"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="340dp"
         android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/panel"
             android:orientation="vertical"
-            android:clickable="true"
-            android:layout_marginEnd="40dp"
-            android:layout_width="340dp"
-            android:paddingTop="@{Unit.getStatusBarHeight()}"
-            android:layout_height="match_parent"
-            android:focusable="true">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <cn.linked.commonlib.view.StatusBarPaddingFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </cn.linked.commonlib.view.StatusBarPaddingFrameLayout>
             <Button
                 android:id="@+id/button"
                 android:layout_width="220dp"
@@ -25,7 +29,7 @@
                 android:text="按钮"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="50dp"/>
-
         </LinearLayout>
-    </FrameLayout>
-</layout>
+
+    </cn.linked.commonlib.view.RoundRectShadowCoverView>
+</FrameLayout>

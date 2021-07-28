@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import cn.linked.baselib.BaseActivity;
 import cn.linked.baselib.ui.dialog.MessageDialog;
-import cn.linked.commonlib.viewmodel.UpdatePanelViewModel;
 import cn.linked.link.NavigationPagerAdapter;
 import cn.linked.link.R;
 import cn.linked.link.databinding.LayoutMainBinding;
@@ -37,7 +36,7 @@ public class MainActivity extends BaseActivity {
             });
             return null;
         });
-        LayoutMainBinding activityMainBinding= LayoutMainBinding.inflate(getLayoutInflater(),null,false);
+        LayoutMainBinding activityMainBinding = LayoutMainBinding.inflate(getLayoutInflater(),null,false);
         setContentView(activityMainBinding.getRoot());
         initPager();
     }
@@ -86,7 +85,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        UpdatePanelViewModel.showUpdatePanel(this);
     }
 
     @Override

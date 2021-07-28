@@ -2,19 +2,10 @@ package cn.linked.baselib.repository;
 
 import android.util.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.GeneralSecurityException;
 import java.security.KeyStore;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateFactory;
 import java.util.Arrays;
-import java.util.Collection;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
@@ -22,6 +13,7 @@ import javax.net.ssl.X509TrustManager;
 
 import cn.linked.baselib.LinkApplication;
 import cn.linked.baselib.common.AppCookieJar;
+import cn.linked.baselib.repository.interceptor.SessionInvalidInterceptor;
 import okhttp3.OkHttpClient;
 
 /**
@@ -51,6 +43,7 @@ public class OkHttpClientManager {
                 .cookieJar(new AppCookieJar(LinkApplication.getInstance()))
                 .hostnameVerifier((hostname, session) -> true)
                 .sslSocketFactory(sslSocketFactory, trustManager)
+                .addInterceptor(new SessionInvalidInterceptor())
                 .build();
     }
 

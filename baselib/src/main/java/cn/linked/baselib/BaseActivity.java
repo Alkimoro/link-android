@@ -13,14 +13,25 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 
-import cn.linked.router.api.Router;
+import lombok.Getter;
 
 public class BaseActivity extends AppCompatActivity implements UIContext {
+
+    public static final String TAG = "BaseActivity";
+
+    @Getter
+    private static final ActivityManager activityManager = new ActivityManager();
+
+    @Getter
+    private ContentWrapperFragment contentWrapperFragment;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "Activity on create.class:" + getClass());
+        activityManager.pushActivity(this);
 
-        LinkApplication application=(LinkApplication) getApplication();
+        LinkApplication application = (LinkApplication) getApplication();
         switch(application.appStatus){
             case LinkApplication.APP_STATUS_FORCE_KILLED:
                 restartApp();
@@ -29,6 +40,31 @@ public class BaseActivity extends AppCompatActivity implements UIContext {
 
         setStatusBarAppearance();
         setNavigationBarAppearance();
+
+        contentWrapperFragment = new ContentWrapperFragment();
+        getSupportFragmentManager().beginTransaction().add(android.R.id.content, contentWrapperFragment, "contentWrapperFragment").commit();
+    }
+
+    @Override
+    public <T extends View> T findViewById(int id) {
+        T v = super.findViewById(id);
+        if(v != null) { return v; }
+        return contentWrapperFragment.getLayoutView().findViewById(id);
+    }
+
+    @Override
+    public void setContentView(int layoutResID) {
+        View view = getLayoutInflater().inflate(layoutResID, getContentView(), false);
+        contentWrapperFragment.setLayoutView(view);
+    }
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        view.setLayoutParams(params);
+        contentWrapperFragment.setLayoutView(view);
+    }
+    @Override
+    public void setContentView(View view) {
+        contentWrapperFragment.setLayoutView(view);
     }
 
     protected void setStatusBarAppearance(){
@@ -53,17 +89,10 @@ public class BaseActivity extends AppCompatActivity implements UIContext {
     }
 
     protected void restartApp(){
-        Log.i("Activity","APP 重新启动 当前Activity："+getClass().getName());
-        Intent intent=getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+        Log.i(TAG, "APP 重新启动 当前Activity：" + getClass().getName());
+        getActivityManager().finishAllActivity(false);
+        Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
         startActivity(intent);
-        finish();
-    }
-
-    protected void goLoginActivity() {
-        Intent intent=new Intent(getApplication(), Router.route("app/loginActivity"));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-        finish();
     }
 
     public ViewGroup getContentView() {
@@ -102,6 +131,8 @@ public class BaseActivity extends AppCompatActivity implements UIContext {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i(TAG, "Activity on destroy.class:" + getClass());
+        activityManager.removeActivity(this);
     }
 
     @Override

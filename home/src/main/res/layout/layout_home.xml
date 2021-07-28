@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:orientation="vertical">
 
@@ -10,7 +10,6 @@
         android:background="@color/lightGray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -59,6 +58,7 @@
                             android:layout_height="match_parent"/>
                     </cn.linked.commonlib.view.RoundRectShadowCoverView>
                     <TextView
+                        android:id="@+id/userStateText"
                         android:layout_marginStart="10dp"
                         android:gravity="center_vertical"
                         android:textColor="@color/darkGray"
@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/moreMenuButton"
                     android:src="@drawable/shape_home_title_bar_more"
                     android:layout_gravity="center"
                     android:layout_width="20dp"
@@ -82,47 +83,11 @@
             </LinearLayout>
 
         </LinearLayout>
-
     </cn.linked.commonlib.view.StatusBarPaddingFrameLayout>
 
-    <LinearLayout
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/homeContentViewPager"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="match_parent"/>
 
-        <ImageView
-            android:src="@drawable/shape_home_info_bar_left_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
-
-        <TextView
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:text="江山易老吗 几度斑驳"
-            android:textSize="16dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/darkGray"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="40dp"/>
-
-        <ImageView
-            android:src="@drawable/shape_home_info_bar_right_icon"
-            android:layout_marginEnd="5dp"
-            android:layout_width="15dp"
-            android:layout_height="15dp"/>
-        
-    </LinearLayout>
-    
-    <ListView
-        android:id="@+id/sessionList"
-        android:dividerHeight="0dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ListView>
-    
 </LinearLayout>

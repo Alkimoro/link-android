@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/homeInfoBar"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@drawable/shape_home_info_bar_bg"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:src="@drawable/shape_home_info_bar_left_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
+        <TextView
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="联系人"
+            android:textSize="16dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/darkGray"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"/>
+        <ImageView
+            android:src="@drawable/shape_home_info_bar_right_icon"
+            android:layout_marginEnd="5dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sessionList"
+        android:background="@color/highLightGray"
+        android:dividerHeight="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

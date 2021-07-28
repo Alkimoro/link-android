@@ -15,18 +15,19 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.Date;
 
+import cn.linked.baselib.config.Constant;
 import cn.linked.baselib.room.converter.DateAndLongConverter;
 import lombok.Data;
 
 @Data
-@Entity(tableName = "chat_message", indices = {@Index(value = {"group_id","sequence_number"}, unique = true)})
+@Entity(tableName = "chat_message", indices = {@Index(value = {"group_id", "sequence_number"}, unique = true)})
 @TypeConverters(DateAndLongConverter.class)
 public class ChatMessage implements Parcelable {
 
     // 数据库的主键id 到达服务器 存入数据库时自动设置
     @PrimaryKey
     @NonNull
-    private String id = "";
+    private String id = Constant.EMPTY_STRING;
 
     @Ignore
     private Long ackId;

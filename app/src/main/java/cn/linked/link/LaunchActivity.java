@@ -24,6 +24,9 @@ public class LaunchActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getActivityManager().getActivityCount() > 1) {
+            finish();
+        }
         LayoutLaunchBinding launchBinding=LayoutLaunchBinding.inflate(getLayoutInflater(),null,false);
         launchBinding.setM(getResources().getDisplayMetrics());
         setContentView(launchBinding.getRoot());

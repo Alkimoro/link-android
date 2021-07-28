@@ -10,9 +10,14 @@ import androidx.annotation.Nullable;
 
 import cn.linked.baselib.BaseFragment;
 import cn.linked.router.common.Route;
+import lombok.Getter;
 
 @Route(path = "home/homeFragment")
 public class HomeFragment extends BaseFragment {
+
+    @Getter
+    private HomeViewDelegate homeViewDelegate;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +25,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = new HomeViewDelegate(this, container, new HomeViewModel()).getRootView();
-        return view;
+        homeViewDelegate = new HomeViewDelegate(this, container, new HomeViewModel());
+        return homeViewDelegate.getRootView();
     }
 }

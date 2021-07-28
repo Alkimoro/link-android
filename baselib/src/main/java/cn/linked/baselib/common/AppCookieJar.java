@@ -22,6 +22,7 @@ import okhttp3.HttpUrl;
 public class AppCookieJar implements CookieJar {
 
     public static final String fileName = "cookies";
+    public static final String cookieKey = "cookies";
     public static final String sessionName = "SESSION";
 
     @Getter
@@ -43,7 +44,7 @@ public class AppCookieJar implements CookieJar {
                 editor.putString(sessionName,cookie.value()).apply();
             }
         }
-        editor.putStringSet(url.toString(),stringSet).apply();
+        editor.putStringSet(cookieKey,stringSet).apply();
     }
 
     private String cookieToString(Cookie cookie) {
@@ -58,7 +59,7 @@ public class AppCookieJar implements CookieJar {
     @Override
     public List<Cookie> loadForRequest(HttpUrl url) {
         List<Cookie> result=new ArrayList<>();
-        Set<String> cookieStringSet=store.getStringSet(url.toString(),null);
+        Set<String> cookieStringSet=store.getStringSet(cookieKey,null);
         if(cookieStringSet!=null) {
             Iterator<String> it=cookieStringSet.iterator();
             while (it.hasNext()) {

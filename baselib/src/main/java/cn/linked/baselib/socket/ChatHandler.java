@@ -10,6 +10,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ChatHandler extends ChannelInboundHandlerAdapter {
 
+    public static final String TAG = "ChatHandler";
+
     private ChatClient chatClient;
 
     public ChatHandler(ChatClient chatClient) {
@@ -36,6 +38,10 @@ public class ChatHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         NetworkData<?> message= (NetworkData<?>) msg;
         switch (message.getCode()) {
+            case NetworkData.CODE_BIND_ACK : {
+                chatClient.onBindAck(ctx.channel());
+                break;
+            }
             case NetworkData.CODE_CHAT_ACK : {
                 ChatMessage chatAckMessage = JSON.toJavaObject((JSONObject) message.getData(), ChatMessage.class);
                 getChatDispatcher().deliverChatAck(chatAckMessage);

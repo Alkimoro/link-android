@@ -1,29 +1,25 @@
 package cn.linked.mine;
 
 import android.os.Bundle;
-import android.os.Environment;
-import android.view.PixelCopy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import cn.linked.baselib.BaseActivity;
 import cn.linked.baselib.LinkApplication;
+import cn.linked.mine.business.mine.MineFragment;
 
 public class MineActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_AppCompat_DayNight_NoActionBar);
         setContentView(R.layout.activity_main);
-        Fragment fragment=new MineFragment();
-        MineFragmentViewModel viewModel=new MineFragmentViewModel(fragment);
 
-        System.out.println(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS));
-        System.out.println(getApplicationContext().getExternalFilesDir(null).getAbsolutePath());
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.moduleFragmentContainer, MineFragment.class, null)
+                .commit();
     }
 
     @Override

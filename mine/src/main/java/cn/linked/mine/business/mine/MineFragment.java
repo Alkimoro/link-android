@@ -1,4 +1,4 @@
-package cn.linked.mine;
+package cn.linked.mine.business.mine;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,45 +11,36 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
+import cn.linked.baselib.BaseFragment;
 import cn.linked.router.common.Route;
 
 @Route(path = "mine/mineFragment")
-public class MineFragment extends Fragment {
-
-    private MineFragmentViewModel viewModel;
-    private boolean isViewModelInit=false;
+public class MineFragment extends BaseFragment {
 
     public MineFragment() {
-        initTransition();
+
     }
 
-    private void initTransition() {
-        Transition transition=new Slide(Gravity.LEFT);
-        transition.setDuration(400);
-        setEnterTransition(transition);
-        setExitTransition(transition);
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(!isViewModelInit) {
-            viewModel = new MineFragmentViewModel(this);
-            isViewModelInit=true;
-        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Transition transition = new Slide(Gravity.START);
+        transition.setDuration(200);
+        setEnterTransition(transition);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return viewModel.getBinding().getRoot();
+        View view = new MineViewDelegate(this, container, new MineFragmentViewModel()).getRootView();
+        return view;
     }
 
 }

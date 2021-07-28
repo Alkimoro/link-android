@@ -10,11 +10,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NetworkBroadcastReceiver extends BroadcastReceiver {
 
     private Map<NetworkListener,Object> listenerMap = new ConcurrentHashMap<>();
+    private AppNetwork.NetworkState lastState;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        for(NetworkListener listener : listenerMap.keySet()) {
-            listener.networkChanged(AppNetwork.getNetworkState());
+        AppNetwork.NetworkState currentState = AppNetwork.getNetworkState();
+        if(currentState != lastState) {
+            lastState = currentState;
+            for (NetworkListener listener : listenerMap.keySet()) {
+                listener.networkChanged(currentState);
+            }
         }
     }
 

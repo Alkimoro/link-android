@@ -9,7 +9,9 @@ import android.os.RemoteException;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -36,17 +38,17 @@ public class ChatManager {
     private IChatController chatController;
 
     private ExecutorService workers;
-    private final int workerThreadNum = 5;
-
-    private final Object lock = new Object();
+    private final int workerThreadNum = 3;
 
     private Set<ChatMessageListener> chatMessageListenerSet = new HashSet<>();
+
+    private final Map<ChatMessage, Promise<ChatMessage>> waitSendChatMessageMap = new HashMap<>();
 
     private ConcurrentHashMap<Long, Promise<ChatMessage>> noAckMessageMap = new ConcurrentHashMap<>();
     // 不需要线程安全 内部使用的时候 加了锁 已经保证了线程安全
     private HashSet<Long> waitSequenceNumSet = new HashSet<>();
 
-    public ChatManager(@NonNull Context context) {
+    public ChatManager(@NonNull LinkApplication context) {
         this.context = context;
         chatRepository = getApplicationContext().getAndCreateInstance(ChatRepository.class);
         workers = Executors.newFixedThreadPool(workerThreadNum);
@@ -55,9 +57,12 @@ public class ChatManager {
         context.bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
-                chatController = IChatController.Stub.asInterface(service);
-                synchronized (lock) {
-                    lock.notifyAll();
+                IChatController temp = IChatController.Stub.asInterface(service);
+                synchronized (waitSendChatMessageMap) {
+                    for(Map.Entry<ChatMessage, Promise<ChatMessage>> entry : waitSendChatMessageMap.entrySet()) {
+                        sendChatMessageInternal(entry.getKey(), entry.getValue());
+                    }
+                    chatController = temp;
                 }
             }
             @Override
@@ -77,31 +82,34 @@ public class ChatManager {
             message.setMessage(msg);
             // 等待连接上ChatService
             if(chatController == null) {
-                synchronized (lock) {
-                    try {
-                        if(chatController == null) {
-                            lock.wait();
-                        }
-                    } catch (InterruptedException ignored) { }
+                synchronized (waitSendChatMessageMap) {
+                    if(chatController == null) {
+                        waitSendChatMessageMap.put(message, promise);
+                        return;
+                    }
                 }
             }
-            try {
-                chatController.sendChatMessage(message, new IBooleanResultCallback.Stub() {
-                    @Override
-                    public void callback(boolean value) throws RemoteException {
-                        if(value) {
-                            noAckMessageMap.put(tempAckId, promise);
-                        }else {
-                            promise.reject(new ChatServiceException());
-                        }
-                    }
-                });
-            } catch (RemoteException e) {
-                promise.reject(e);
-            }
+            sendChatMessageInternal(message, promise);
         };
         workers.submit(task);
         return promise;
+    }
+
+    private void sendChatMessageInternal(ChatMessage message, Promise<ChatMessage> promise) {
+        try {
+            chatController.sendChatMessage(message, new IBooleanResultCallback.Stub() {
+                @Override
+                public void callback(boolean value) throws RemoteException {
+                    if(value) {
+                        noAckMessageMap.put(message.getAckId(), promise);
+                    }else {
+                        promise.reject(new ChatServiceException());
+                    }
+                }
+            });
+        } catch (RemoteException e) {
+            promise.reject(e);
+        }
     }
 
     public void onChatMessageAck(ChatMessage ackMessage) {
@@ -117,12 +125,29 @@ public class ChatManager {
         }
     }
 
-    public void onChannelActive() {
-
+    public static final int CHANNEL_ACTIVE_STATE_ACTIVE = 1;
+    public static final int CHANNEL_ACTIVE_STATE_INACTIVE = 2;
+    public interface ChannelActiveStateListener {
+        void onChannelActiveStateChange(int currentState);
     }
-
+    private Set<ChannelActiveStateListener> channelActiveStateListenerSet = new HashSet<>();
+    // 被ChatAppService通知调用
+    public void onChannelActive() {
+        for(ChannelActiveStateListener listener : channelActiveStateListenerSet) {
+            listener.onChannelActiveStateChange(CHANNEL_ACTIVE_STATE_ACTIVE);
+        }
+    }
+    // 被ChatAppService通知调用
     public void onChannelInactive() {
-
+        for(ChannelActiveStateListener listener : channelActiveStateListenerSet) {
+            listener.onChannelActiveStateChange(CHANNEL_ACTIVE_STATE_INACTIVE);
+        }
+    }
+    public void addChannelActiveStateListener(@NonNull ChannelActiveStateListener listener) {
+        channelActiveStateListenerSet.add(listener);
+    }
+    public void removeChannelActiveStateListener(@NonNull ChannelActiveStateListener listener) {
+        channelActiveStateListenerSet.remove(listener);
     }
 
     public interface ChatMessageListener {
@@ -131,6 +156,7 @@ public class ChatManager {
 
     public void onReceiveChatMessage(ChatMessage message) {
         if(message != null && message.getSequenceNumber() != null) {
+            // 保存 message
             chatRepository.saveChatMessageToLocal(message);
             for (ChatMessageListener listener : chatMessageListenerSet) {
                 listener.onReceiveChatMessage(message);
@@ -146,8 +172,8 @@ public class ChatManager {
         chatMessageListenerSet.remove(listener);
     }
 
-    public Promise<?> bindUser() {
-        Promise<?> promise = new Promise<>();
+    public Promise<Void> bindUser() {
+        Promise<Void> promise = new Promise<>();
         Runnable task = () -> {
             try {
                 chatController.bindUser(getApplicationContext().getSessionId());

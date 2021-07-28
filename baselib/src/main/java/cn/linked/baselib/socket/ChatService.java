@@ -11,8 +11,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import cn.linked.baselib.LinkApplication;
 import cn.linked.baselib.callback.IBooleanResultCallback;
-import cn.linked.baselib.common.AppNetwork;
 import cn.linked.baselib.entity.ChatMessage;
 import cn.linked.baselib.entity.NetworkData;
 import cn.linked.router.api.Router;
@@ -73,12 +73,10 @@ public class ChatService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i(TAG, "onCreate");
+        Log.i(TAG, "onCreate. application class:" + getApplication().getClass());
         // 初始化聊天客户端 ChatClient
         chatClient = new ChatClient(this);
         chatClient.init();
-        // 注册全局 网络状态监听器
-        AppNetwork.registerNetworkBroadcastReceiver(this);
     }
 
     @Override
@@ -102,6 +100,10 @@ public class ChatService extends Service {
         }
         return START_NOT_STICKY;
         //return START_STICKY;
+    }
+
+    public LinkApplication getAppApplication() {
+        return (LinkApplication) getApplication();
     }
 
     @Nullable@Override

@@ -17,6 +17,6 @@
         android:label="HomeFragment" />
     <fragment
         android:id="@+id/mineFragment"
-        android:name="cn.linked.mine.MineFragment"
+        android:name="cn.linked.mine.business.mine.MineFragment"
         android:label="MineFragment" />
 </navigation>

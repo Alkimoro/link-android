@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cn.linked.baselib.config.Properties;
+import cn.linked.baselib.repository.entry.BaseRepository;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -28,6 +29,7 @@ public class RetrofitManager {
         return new Retrofit.Builder()
                 .baseUrl(Properties.getBaseURL())
                 .client(OkHttpClientManager.getOkHttpClient())
+                .callbackExecutor(BaseRepository.getExecutorService())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

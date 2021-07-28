@@ -49,6 +49,9 @@ public class AppNetwork {
         networkStateMap.put(20, NetworkState.NET_5G);
     }
 
+    /**
+     *  统一网络状态管理 由Application注册就行了 其他Context不需要调用
+     * */
     public static void registerNetworkBroadcastReceiver(@NonNull Context context) {
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         context.registerReceiver(networkBroadcastReceiver, intentFilter);

@@ -3,12 +3,19 @@ package cn.linked.commonlib.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 import cn.linked.commonlib.R;
 import cn.linked.commonlib.util.drawable.ShadowDrawable;
@@ -16,6 +23,10 @@ import cn.linked.commonlib.util.drawable.ShadowDrawable;
 public class RoundRectShadowCoverView extends FrameLayout {
 
     private ShadowDrawable shadowDrawable;
+
+    private ShadowDrawableTarget shadowDrawableTarget;
+
+    private Drawable errorContentBackGround;
 
     public RoundRectShadowCoverView(@NonNull Context context) {
         super(context);
@@ -46,6 +57,14 @@ public class RoundRectShadowCoverView extends FrameLayout {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundRectShadowCoverView);
 
             setContentBackGround(typedArray.getDrawable(R.styleable.RoundRectShadowCoverView_contentBackground));
+            errorContentBackGround = shadowDrawable.getBackground();
+            Drawable temp;
+            temp = typedArray.getDrawable(R.styleable.RoundRectShadowCoverView_errorBackground);
+            errorContentBackGround = temp == null? errorContentBackGround : temp;
+
+            setContentBackGroundURL(typedArray.getString(R.styleable.RoundRectShadowCoverView_backgroundURL));
+
+            setBackgroundSwitchAniDuration(typedArray.getInt(R.styleable.RoundRectShadowCoverView_backgroundSwitchAniDuration, 0));
 
             setShadowStartColor(typedArray.getColor(R.styleable.RoundRectShadowCoverView_shadowStartColor,
                     shadowDrawable.getShadowStartColor()));
@@ -72,10 +91,42 @@ public class RoundRectShadowCoverView extends FrameLayout {
             typedArray.recycle();
         }
         setBackground(shadowDrawable);
+        shadowDrawableTarget = new ShadowDrawableTarget(this);
+    }
+
+    @MainThread
+    public void setContentBackGroundURL(String url) {
+        if(url != null && url.startsWith("http")) {
+            Glide.with(this)
+                    .load(url)
+                    // todo 缓存到本地
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(shadowDrawableTarget);
+        }
+    }
+
+    private static class ShadowDrawableTarget extends CustomTarget<Drawable> {
+        private RoundRectShadowCoverView view;
+        public ShadowDrawableTarget(RoundRectShadowCoverView view) {
+            this.view = view;
+        }
+        @Override
+        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+            if(resource instanceof Animatable) { ((Animatable) resource).start(); }
+            view.shadowDrawable.setBackground(resource);
+        }
+        @Override
+        public void onLoadCleared(@Nullable Drawable placeholder) {
+            if(view.errorContentBackGround != null) { view.shadowDrawable.setBackground(view.errorContentBackGround); }
+        }
     }
 
     public void setContentBackGround(Drawable drawable) {
         shadowDrawable.setBackground(drawable);
+    }
+
+    public void setBackgroundSwitchAniDuration(int duration) {
+        shadowDrawable.setBackgroundSwitchDuration(duration);
     }
 
     public void setShadowStartColor(int color) {
